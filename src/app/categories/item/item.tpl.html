@@ -1,0 +1,40 @@
+<div  ng-controller="CategoriesItemCtrl as Ctrl">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Settings">
+                <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+            </md-button>
+            <h2>
+                <div class="form-horizontal">
+                    Product Category:
+                    <a href="#" editable-text="Ctrl.item.title">
+                        {{ Ctrl.item.title || 'TITLE' }}
+                    </a>
+                </div>
+            </h2>
+            <span flex></span>
+            <md-button class="md-icon-button" aria-label="Favorite">
+                <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+            </md-button>
+            <md-button class="md-icon-button" aria-label="More" ng-click="Ctrl.saveItem()">
+                <md-icon><i class="material-icons">check</i></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-md-4 control-label">Description:</label>
+            <a  class="form-control input-md" href="#" editable-textarea="Ctrl.item.description" e-rows="7" e-cols="60">
+                {{ Ctrl.item.description || 'DESCRIPTION' }}
+            </a>
+        </div>
+    </div>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-md-4 control-label">Parent Category:</label>
+            <a href="#" editable-select="Ctrl.item.parent_id" e-ng-options="o.id as o.title for o in Ctrl.parentOptions">
+                {{ Ctrl.showParent() || 'not set' }}
+            </a>
+        </div>
+    </div>
+</div>

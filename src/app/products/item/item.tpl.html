@@ -1,0 +1,348 @@
+<div class="layout-fill layout-column">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Settings">
+                <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+            </md-button>
+            <h2>
+                <div class="form-horizontal">
+                    Product Name:
+                    <a href="#" editable-text="Ctrl.item.title">
+                        {{ Ctrl.item.title || Ctrl.buildProductName() }}
+                    </a>
+                </div>
+            </h2>
+            <span flex></span>
+
+            <md-button tooltip="Save Current Item State"
+                       tooltip-placement="left"
+                       class="md-icon-button"
+                       aria-label="Save"
+                       ng-click="Ctrl.saveItem()">
+                <md-icon><i class="material-icons">check</i></md-icon>
+            </md-button>
+            <div class="test">
+                <md-button class="md-icon-button md-warn"
+                           tooltip="Delete Current Item"
+                           tooltip-placement="left"
+                           aria-label="More"
+                           ng-click="Ctrl.deleteItem()">
+                    <md-icon> <i class="material-icons">delete</i> </md-icon>
+                </md-button>
+            </div>
+
+        </div>
+    </md-toolbar>
+    <md-content layout-padding layout="column" flex>
+            <md-card>
+                <div class="md-card-content">
+                    <md-input-container layout="row" flex>
+                        <label>Description</label>
+                        <input ng-model="Ctrl.item.description"/>
+                    </md-input-container>
+                    <md-input-container layout="row" flex>
+                        <label>Category</label>
+                        <md-select ng-model="Ctrl.item.category_id">
+                            <md-option ng-repeat="o in Ctrl.categoryOptions" value="{{o.id}}">
+                                {{o.title}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container layout="row" flex>
+                        <label>Parent</label>
+                        <md-select ng-model="Ctrl.item.parent_id">
+                            <md-option ng-repeat="o in Ctrl.parentOptions" value="{{o.id}}">
+                                {{o.title}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-input-container layout="row" flex>
+                        <md-checkbox class="md-primary" ng-model="Ctrl.item.config.membersonly">
+                            Require Membership
+                        </md-checkbox>
+                    </md-input-container>
+                    <md-input-container layout="row" flex>
+                        <label>Cart Limit</label>
+                        <input ng-model="Ctrl.item.config.limit"/>
+                    </md-input-container>
+                    <md-input-container layout="row" flex>
+                        <md-checkbox class="md-primary" ng-model="Ctrl.item.config.taster">
+                            Enable Taster
+                        </md-checkbox>
+                    </md-input-container>
+                    <md-input-container layout="row" flex>
+                        <label>Cart Display Options</label>
+                        <md-select ng-model="Ctrl.item.config.display">
+                            <md-option ng-repeat="o in Ctrl.cartDisplayOptions" value="{{o.value}}">
+                                {{o.text}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </md-card>
+            <md-card layout="column" flex>
+                <md-tabs md-dynamic-height>
+                <md-tab label="Booking">
+                    <md-content layout-padding layout-column flex>
+                        <md-input-container>
+                            <label>Venue</label>
+                            <md-select ng-model="Ctrl.item.venue_id">
+                                <md-option ng-repeat="o in Ctrl.venueOptions" value="{{o.id}}">
+                                    {{o.title}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
+                        <div ng-show="Ctrl.item.config.booking.enabled">
+
+                        </div>
+                        <md-input-container layout="row" flex>
+                            <md-checkbox class="md-primary" ng-model="Ctrl.item.config.booking.enabled">
+                                Enable Booking
+                            </md-checkbox>
+                        </md-input-container>
+                        <div ng-show="Ctrl.item.config.booking.enabled">
+                            <div>
+                                <md-input-container layout="row" flex>
+                                    <label>Type</label>
+                                    <md-select ng-model="Ctrl.item.config.booking.type">
+                                        <md-option ng-repeat="o in Ctrl.bookingTypeOptions" value="{{o.value}}">
+                                            {{o.text}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+
+                            <md-input-container layout="row" flex>
+                                <md-checkbox class="md-primary" ng-model="Ctrl.item.config.booking.agegroups.enabled">
+                                    Enable Age Groups
+                                </md-checkbox>
+                            </md-input-container>
+                            <div ng-show="Ctrl.item.config.booking.agegroups.enabled">
+                                <md-input-container layout="row" flex>
+                                    <label>Age Group</label>
+                                    <md-select ng-model="Ctrl.item.config.booking.agegroups.agegroup">
+                                        <md-option ng-repeat="o in Ctrl.ageGroupOptions" value="{{o.id}}">
+                                            {{o.text}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </div>
+                            <md-input-container layout="row" flex>
+                                <label>Capacity</label>
+                                <input ng-model="Ctrl.item.config.booking.capacity"/>
+                            </md-input-container>
+                        </div>
+                        <fieldset>
+                            <legend>Booking</legend>
+
+                        </fieldset>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Schedule">
+                    <md-content>
+                        <md-input-container layout="row" flex>
+                                <md-checkbox class="md-primary" ng-model="Ctrl.item.config.schedule.enabled">
+                                    Enable Scheduling
+                                </md-checkbox>
+                        </md-input-container>
+                        <div ng-show="Ctrl.item.config.schedule.enabled">
+                                <md-input-container layout="row" flex>
+                                    <label>Type</label>
+                                    <md-select ng-model="Ctrl.item.config.schedule.type">
+                                        <md-option ng-repeat="o in Ctrl.scheduleTypeOptions" value="{{o.value}}">
+                                            {{o.text}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                                <div ng-if="Ctrl.item.config.schedule.type == 'datespan' || Ctrl.item.config.schedule.type == 'recurring'">
+                                    <div class="well well-small">
+                                            <fieldset>
+                                                <legend>Schedule</legend>
+                                                <fieldset>
+                                                    <div rg-range-picker="Ctrl.dateTimeRange" labels="Ctrl.dateTimeLabels"></div>
+                                                </fieldset>
+                                                <div ng-if="Ctrl.item.config.schedule.type == 'recurring'">
+                                                    <fieldset>
+                                                        <legend>Recurrence</legend>
+                                                        <rrule-recurring-select  rule="Ctrl.item.config.schedule.rrule"></rrule-recurring-select>
+                                                    </fieldset>
+                                                </div>
+                                            </fieldset>
+                                            <fieldset>
+                                                <legend>Exclude Dates</legend>
+                                                <div class="col-md-6">
+                                                    <uib-datepicker ng-model='Ctrl.activeDate' multi-select='Ctrl.item.config.schedule.exdates' select-range='false'></uib-datepicker>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    Excluded Dates:
+                                                    <div style="overflow: auto;height: 100%;max-height: 210px;">
+                                                        <div ng-repeat='d in Ctrl.item.config.schedule.exdates | orderBy'>
+                                                            {{d | date : 'fullDate'}}
+                                                            <button class='btn btn-xs btn-warning' style='margin:5px' ng-click='Ctrl.removeExdate(d)'>Remove</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+                                        </div>
+                                </div>
+                                <div ng-if="Ctrl.item.config.schedule.type == 'pickdates'">
+                                    <fieldset>
+                                        <legend>Select Dates</legend>
+                                        <div class="col-sm-6">
+                                            <uib-datepicker ng-model='Ctrl.activeDate' multi-select='Ctrl.item.config.schedule.dates' select-range='false'></uib-datepicker>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            Selected Dates
+                                            <div style="overflow: auto;height: 100%;max-height: 210px;">
+                                                <div ng-repeat='d in Ctrl.item.config.schedule.dates | orderBy'>
+                                                    {{d | date : 'fullDate'}}
+                                                    <button class='btn btn-xs btn-warning' style='margin:5px' ng-click='Ctrl.removeScheduledDate(d)'>Remove</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </fieldset>
+                                </div>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Payment">
+                    <div class="well well-large">
+                        <fieldset>
+                            <legend>Payment</legend>
+                            <div class="well well-lg">
+                                <fieldset>
+                                    <legend>Paynow:</legend>
+                                    <md-input-container layout="row" flex>
+                                        <md-checkbox class="md-primary" ng-model="Ctrl.item.config.payment.paynow.enabled">
+                                            Enable
+                                        </md-checkbox>
+                                    </md-input-container>
+                                    <div ng-show="Ctrl.item.config.payment.paynow.enabled" class="form-group">
+                                        <md-input-container layout="row" flex>
+                                            <md-checkbox class="md-primary" ng-model="Ctrl.item.config.payment.paynow.required">
+                                                Required
+                                            </md-checkbox>
+                                        </md-input-container>
+                                        <div class='well well-large'>
+                                            <fieldset>
+                                                <legend>Methods</legend>
+                                                <md-input-container layout="row" flex>
+                                                    <md-checkbox class="md-primary" ng-model="Ctrl.item.config.payment.paynow.methods.paypal">
+                                                        Credit Card
+                                                    </md-checkbox>
+                                                </md-input-container>
+                                                <md-input-container layout="row" flex>
+                                                    <md-checkbox class="md-primary" ng-model="Ctrl.item.config.payment.paynow.ezcollect">
+                                                        Direct Debit
+                                                    </md-checkbox>
+                                                </md-input-container>
+                                                <md-input-container layout="row" flex>
+                                                    <md-checkbox class="md-primary" ng-model="Ctrl.item.config.payment.paynow.invoice">
+                                                        Invoice/Voucher
+                                                    </md-checkbox>
+                                                </md-input-container>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Billing</legend>
+                                    <md-input-container layout="row" flex>
+                                        <md-checkbox class="md-primary" ng-model="Ctrl.item.config.payment.recurring.enabled">
+                                            Enable
+                                        </md-checkbox>
+                                    </md-input-container>
+                                    <div ng-show="Ctrl.item.config.payment.recurring.enabled" class="form-group">
+                                        <md-input-container layout="row" flex>
+                                            <md-checkbox class="md-primary" ng-model="Ctrl.item.config.payment.recurring.required">
+                                                Required
+                                            </md-checkbox>
+                                        </md-input-container>
+                                        <div class="well well-large">
+                                            <fieldset>
+                                                <legend>Methods</legend>
+                                                <md-input-container layout="row" flex>
+                                                    <md-checkbox class="md-primary" ng-model="Ctrl.item.config.payment.recurring.methods.paypal">
+                                                        Credit Card
+                                                    </md-checkbox>
+                                                </md-input-container>
+                                                <md-input-container layout="row" flex>
+                                                    <md-checkbox class="md-primary" ng-model="Ctrl.item.config.payment.recurring.methods.directdebit">
+                                                        Direct Debit
+                                                    </md-checkbox>
+                                                </md-input-container>
+                                                <md-input-container layout="row" flex>
+                                                    <md-checkbox class="md-primary" ng-model="Ctrl.item.config.payment.recurring.methods.invoice">
+                                                        Invoice/Voucher
+                                                    </md-checkbox>
+                                                </md-input-container>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <legend>Plans</legend>
+                                    <md-input-container layout="row" flex>
+                                        <md-checkbox class="md-primary" ng-model="Ctrl.item.config.payment.plans.enabled">
+                                            Enable
+                                        </md-checkbox>
+                                    </md-input-container>
+                                    <div ng-show="Ctrl.item.config.payment.plans.enabled" class="form-group">
+                                        <md-input-container layout="row" flex>
+                                            <md-checkbox class="md-primary" ng-model="Ctrl.item.config.payment.plans.required">
+                                                Required
+                                            </md-checkbox>
+                                        </md-input-container>
+                                        <div class="well well-large">
+                                            <fieldset>
+                                                <legend>Plans</legend>
+                                            </fieldset>
+                                            <fieldset>
+                                                <legend>Available Plans</legend>
+                                                <h2>coming soon</h2>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </fieldset>
+                    </div>
+                </md-tab>
+                <md-tab label="Pricing">
+                    <md-content>
+                        <div class="well well-lg">
+                            <h3>Pricing Options</h3>
+                            <md-input-container md layout="row" flex>
+                                <label>Type</label>
+                                <md-select ng-model="Ctrl.item.config.pricing.type">
+                                    <md-option ng-repeat="o in Ctrl.pricingTypeOptions" value="{{o.value}}">
+                                        {{o.text}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container layout="row" flex>
+                                <label>Unit Price</label>
+                                <input ng-model="Ctrl.item.config.pricing.unit_price"/>
+                            </md-input-container>
+
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Discounts">
+                    <div class="well well-lg form-inline">
+                        <h3>Discount Options</h3>
+                        <md-input-container layout="row" flex>
+                            <md-checkbox class="md-primary" ng-model="Ctrl.item.config.discount.enabled">
+                                Enabled
+                            </md-checkbox>
+                        </md-input-container>
+                        <div ng-show="Ctrl.item.config.discount.enabled">
+                            <label  class="control-label">Sibling Enrollement</label>
+                            <h2>Coming Soon</h2>
+                        </div>
+                    </div>
+                </md-tab>
+                </md-tabs>
+            </md-card>
+    </md-content>
+</div>

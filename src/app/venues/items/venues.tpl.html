@@ -1,0 +1,86 @@
+<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" >
+    <md-toolbar layout="row">
+        <div class="md-toolbar-tools" ng-controller="LeftCtrl" >
+            <h1>Filters</h1>
+            <span flex></span>
+            <md-button ng-click="close()" class="md-primary" md-sidenav-focus>Close</md-button>
+        </div>
+
+    </md-toolbar>
+    <md-content>
+        <md-input-container flex>
+            <label>State</label>
+            <md-select aria-label placeholder="state" ng-model="Ctrl.filters.state">
+                <md-option ng-repeat="state in [{text:'current',value:1},{text:'archive',value:0}]" value="{{state.value}}">
+                    {{state.text}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container flex>
+            <label>Status</label>
+            <md-select placeholder="Status" ng-model="Ctrl.filters.status">
+                <md-option ng-repeat="status in Ctrl.statusOptions" value="{{status.value}}">
+                    {{status.text}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container>
+            <label>Town/City</label>
+            <input ng-model="Ctrl.filters.city"/>
+        </md-input-container>
+        <md-input-container>
+            <label>Activities</label>
+            <md-select placeholder="Status" ng-model="Ctrl.filters.status" multiple>
+                <md-option ng-repeat="activity in Ctrl.activityOptions" value="{{activity.value}}">
+                    {{activity.text}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+    </md-content>
+</md-sidenav>
+
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings">
+            <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+        </md-button>
+        <h2>
+            <span>Venues</span>
+        </h2>
+        <span flex></span>
+        <md-button class="md-icon-button" aria-label="Favorite">
+            <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="More" ui-sref="venues.item">
+            <md-icon><i class="material-icons">add_circle_outline</i></md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<md-content flex>
+    <md-subheader>
+        <div layout="row" layout-align="space-around center" flex>
+            <div flex="20">Name</div>
+            <div flex="20">Town/City</div>
+            <div flex="20">Postcode</div>
+            <div flex="20">Phone</div>
+            <div flex="20">Email</div>
+        </div>
+    </md-subheader>
+    <md-list ng-if="Ctrl.items.length" >
+        <md-list-item class="md-1-line" ng-repeat="item in Ctrl.items" >
+            <div layout="row" layout-align="space-around center" flex>
+                <div flex="25">
+                    <a ui-sref="venues.item({id:item.id})" >
+                        <i class="fa fa-edit"></i> {{item.title}}
+                    </a>
+                </div>
+                <div flex="20">{{item.address_facility_city}}</div>
+                <div flex="15">{{item.address_facility_postalcode}}</div>
+                <div flex="20">{{item.phone}}</div>
+                <div flex="20">{{item.email}}</div>
+            </div>
+        </md-list-item>
+    </md-list>
+    <h1 ng-if="!Ctrl.items.length">No Venues To Display</h1>
+</md-content>

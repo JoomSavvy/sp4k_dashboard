@@ -1,0 +1,44 @@
+<md-toolbar  md-scroll-shrink>
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings">
+            <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+        </md-button>
+        <h2>
+            Child Detail: {{ Ctrl.item.name || '' }}
+        </h2>
+        <span flex></span>
+        <div>
+            <md-button tooltip="Save Current Item State"
+                       tooltip-placement="left"
+                       class="md-icon-button"
+                       aria-label="Save"
+                       ng-click="Ctrl.saveItem()">
+                <md-icon><i class="material-icons">check</i></md-icon>
+            </md-button>
+
+            <md-button class="md-icon-button"
+                       tooltip="Close Current Item"
+                       tooltip-placement="left"
+                       aria-label="More"
+                       ng-click="Ctrl.cancelItem()">
+                <md-icon> <i class="material-icons">cancel_circle_outline</i> </md-icon>
+            </md-button>
+        </div>
+    </div>
+</md-toolbar>
+<md-content class="md-whiteframe-1dp" flex>
+    <div flex>
+        <img class="parentProfilePicture" ng-src="/images/children/{{Ctrl.item.image}}"/>
+    </div>
+    <div>
+        {{item.name}}
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6">
+        {{item.dob | date:'shortDate' }}
+    </div>
+    <div class="col-xs-12 col-sm-3 col-md-3">
+        <md-button ng-click="Ctrl.removeChild($index)">
+            <md-icon><i class="material-icons">cancel_circle_outline</i></md-icon>
+        </md-button>
+    </div
+</md-content>

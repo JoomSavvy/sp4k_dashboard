@@ -1,0 +1,157 @@
+@light-gray: #f6f6f6;
+@dark-gray: #BBBDBF;
+@white: #ffffff;
+@smoke-gray: #929497;
+@dark-blue: #3c5471;
+
+.container {
+  margin: 0;
+  font-family: "EB Garamond";
+  background-color: @dark-blue;
+  color: @white;
+
+  h1 {
+    background-color: #24282e;
+    margin: 0;
+    padding: 25px;
+  }
+
+  .samples {
+    padding: 25px;
+
+    .sample {
+      float: left;
+      margin: 50px auto;
+      width: 400px;
+
+      .desc {
+        font-size: 18px;
+      }
+
+      .live-edit {
+        width: 300px;
+      }
+    }
+  }
+}
+
+.rrule-recurring-select {
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .frequency-type, .interval {
+    margin: 8px 0;
+  }
+
+  .weekly {
+    ul {
+      li {
+        display: inline-block;
+        background-color: @white;
+        cursor: pointer;
+        width: 25px;
+        height: 20px;
+        padding: 5px;
+        font-weight: bold;
+        text-align: center;
+        border: 1px solid @dark-gray;
+
+        &.selected {
+          background-color: @smoke-gray;
+        }
+      }
+    }
+  }
+
+  .monthly {
+    &.day_of_month {
+      height: 198px;
+    }
+
+    &.day_of_week {
+      height: 165px;
+    }
+
+    ul.month-days {
+
+      li {
+        display: inline-block;
+        background-color: @white;
+        cursor: pointer;
+        width: 25px;
+        height: 20px;
+        padding: 5px;
+        font-weight: bold;
+        text-align: center;
+        border: 1px solid @dark-gray;
+        float: left;
+
+        &:last-child {
+          width: 136px;
+        }
+
+        &.selected {
+          background-color: @smoke-gray;
+        }
+      }
+    }
+
+    ul.month-week-days {
+      width: 259px;
+
+      li {
+        .week-days {
+
+          li {
+            display: inline-block;
+            cursor: pointer;
+            padding: 5px 24px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 3em;
+            border: 1px solid @dark-gray;
+
+            &.week-index-title {
+              font-size:2em;
+              background-color: @light-gray;
+              border: none;
+              font-weight: normal;
+            }
+
+            &.selected {
+              background-color: @smoke-gray;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .yearly ul.year-months li.year-month {
+    display: inline-block;
+  }
+
+  .yearly ul.year-month-days li.year-month-day {
+    display: inline-block;
+  }
+
+  .actions {
+    .button {
+      text-align: center;
+      float: left;
+      margin-right: 10px;
+      padding: 10px;
+      border: 1px solid @dark-gray;
+      width: 37%;
+    }
+
+    .summary {
+      font-weight: bold;
+      clear: both;
+      padding: 10px;
+    }
+  }
+}

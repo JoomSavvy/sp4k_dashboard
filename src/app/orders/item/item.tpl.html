@@ -1,0 +1,89 @@
+<md-content>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>
+                <span>Order <span ng-if="Ctrl.item.id">ID:</span>{{Ctrl.item.id}}</span>
+            </h2>
+            <span flex></span>
+            <md-button aria-label="Add Order Item" ng-click="Ctrl.saveItem()">
+                <md-icon><i class="material-icons">check</i></md-icon>
+            </md-button>
+            <md-button aria-label="Cancel unsaved order changes and return to accounts." ng-click="Ctrl.cancelOrderChanges()">
+                <md-icon><i class="material-icons">cancel_circle_outline</i></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-card>
+        <md-card-content layout="row">
+            <div>
+                Account ID: {{Ctrl.item.account_id}}
+            </div>
+            <div>
+                Created: {{Ctrl.item.created * 1000 | date: 'shortDate'}}
+            </div>
+            <div>
+                Source: {{Ctrl.item.source}}
+            </div>
+            <div>
+                Total: {{Ctrl.item.total}}
+            </div>
+        </md-card-content>
+    </md-card>
+    <md-card>
+        <md-card-content>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>
+                        <span>Items</span>
+                    </h2>
+                    <span flex></span>
+                    <md-button aria-label="Add Order Item" ng-click="Ctrl.showProductForm()">
+                        <md-icon><i class="material-icons">add_circle_outline</i></md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-card ng-if="Ctrl.displayProductForm">
+                <md-card-content>
+                    <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h2>Product Form</h2>
+                            <span flex></span>
+                            <md-button aria-label="Commit Product" ng-click="Ctrl.commitProductForm()">
+                                <md-icon><i class="material-icons">check</i> </md-icon>
+                            </md-button>
+                            <md-button aria-label="Cancel Product" ng-click="Ctrl.cancelProductForm()">
+                                <md-icon><i class="material-icons">cancel_circle_outline</i></md-icon>
+                            </md-button>
+                        </div>
+                    </md-toolbar>
+                    <div ng-if="Ctrl.displayProductSelector" ng-init="Ctrl.activateProductSelector()">
+                        <div id="productSelector"></div>
+                    </div>
+                    <div ng-if="Ctrl.newProduct.product">
+                        <ng-include
+                                ng-if="Ctrl.newProduct.product.config.booking.enabled"
+                                src="'orders/item/tpl/add/booking/'+Ctrl.newProduct.product.config.booking.type+'.tpl.html'">
+                        </ng-include>
+                        <div ng-repeat="(type,payment) in Ctrl.newProduct.product.config.payment">
+                                <ng-include
+                                        src="'orders/item/tpl/add/payment/'+type+'.tpl.html'">
+                                </ng-include>
+                        </div>
+                    </div>
+                </md-card-content>
+            </md-card>
+            <div ng-repeat="line_item in Ctrl.item.items">
+                <md-card>
+                    <md-card-content>
+                        <div ng-if="line_item.product.plugins.booking.enabled">
+                            <ng-include src="'orders/item/tpl/display/booking/'+line_item.product.plugins.booking.type+'.tpl.html'"></ng-include>
+                        </div>
+                        <div ng-if="line_item.product.plugins.pricing.enabled">
+                            <ng-include src="'orders/item/tpl/display/pricing/'+line_item.product.plugins.pricing.type+'.tpl.html'"></ng-include>
+                        </div>
+                    </md-card-content>
+                </md-card>
+            </div>
+        </md-card-content>
+    </md-card>
+</md-content>

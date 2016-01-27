@@ -1,0 +1,7 @@
+Class: {{line_item.product.title}}
+<br/>
+Child Name: {{Ctrl.getChildName(line_item.child_id)}}
+<br/>
+Start Date: {{(line_item.data.date_start * 1000 | date:'shortDate')}}
+<br/>
+End Date: {{(line_item.data.date_end * 1000 | date:'shortDate')}}

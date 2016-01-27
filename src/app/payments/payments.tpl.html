@@ -1,0 +1,35 @@
+
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Settings">
+                <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+            </md-button>
+            <h2>
+                <span>Payments</span>
+            </h2>
+            <span flex></span>
+            <md-button aria-label="Create Order" ui-sref="orders.item">
+                <md-icon><i class="material-icons">add_circle_outline</i></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-content>
+        <md-list ng-if="Ctrl.items.length">
+            <md-grid-list class="col-xs-12">
+                <md-grid-tile-header class="col-xs-3">Payment Id</md-grid-tile-header>
+                <md-grid-tile-header class="col-xs-3">Created</md-grid-tile-header>
+                <md-grid-tile-header class="col-xs-3">Invoice Id</md-grid-tile-header>
+                <md-grid-tile-header class="col-xs-3">Amount</md-grid-tile-header>
+            </md-grid-list>
+
+            <md-list-item  ng-repeat="item in Ctrl.items">
+                <md-grid-list class="col-xs-12">
+                    <md-grid-tile class="col-xs-3">{{item.id}}</md-grid-tile>
+                    <md-grid-tile class="col-xs-3">{{item.created}}</md-grid-tile>
+                    <md-grid-tile class="col-xs-3">{{item.invoice_id}}</md-grid-tile>
+                    <md-grid-tile class="col-xs-3">{{item.amount}}</md-grid-tile>
+                </md-grid-list>
+            </md-list-item>
+        </md-list>
+        <h1 ng-if="!Ctrl.items.length">No Payments To Display</h1>
+    </md-content>

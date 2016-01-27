@@ -1,0 +1,215 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings">
+            <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+        </md-button>
+        <h2>
+            Title: {{ Ctrl.item.title || '______________' }}
+        </h2>
+        <span flex></span>
+        <md-button class="md-icon-button" aria-label="Favorite">
+            <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+        </md-button>
+        <md-button class="md-icon-button" aria-label="More" ng-click="Ctrl.saveItem()">
+            <md-icon><i class="material-icons">check</i></md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-content layout-padding flex>
+
+    <md-content layout="row">
+        <md-input-container flex>
+            <label>ID</label>
+            <input ng-model="Ctrl.item.id" disabled>
+        </md-input-container>
+        <md-input-container flex>
+            <label>Created</label>
+            <input ng-model="Ctrl.item.created" disabled>
+        </md-input-container>
+        <md-input-container flex>
+            <label>Created By</label>
+            <input ng-model="Ctrl.item.created_by" disabled>
+        </md-input-container>
+        <md-input-container layout="row" flex>
+            <label>Status</label>
+            <md-select ng-model="Ctrl.item.status">
+                <md-option ng-repeat="o in Ctrl.statusOptions" value="{{o.text}}">
+                    {{o.text}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+    </md-content>
+    <md-content layout-padding layout="row" layout-sm="column">
+        <div layout="row">
+            <md-input-container>
+                <label>Title</label>
+                <input ng-model="Ctrl.item.title">
+            </md-input-container>
+            <md-input-container>
+                <label>Website</label>
+                <input ng-model="Ctrl.item.website" type="url">
+            </md-input-container>
+        </div>
+        <div layout="row">
+            <md-input-container>
+                <label>Email</label>
+                <input ng-model="Ctrl.item.email" type="email">
+            </md-input-container>
+            <md-input-container>
+                <label>Phone</label>
+                <input ng-model="Ctrl.item.phone" type="url">
+            </md-input-container>
+        </div>
+    </md-content>
+    <md-content layout-padding>
+        <md-input-container  class="md-block">
+            <label>Description</label>
+            <textarea ng-model="Ctrl.item.description" columns="1" rows="5"></textarea>
+        </md-input-container>
+    </md-content>
+    <!--
+    {{item.description}}
+    {{item.image}}
+    {{item.directions}}
+    {{item.bookable}}
+    {{item.capacity}}
+    {{item.website}}
+    {{item.email}}
+    {{item.address_facility_street1}}
+    {{item.address_facility_street2}}
+    {{item.address_facility_city}}
+    {{item.address_facility_state}}
+    {{item.address_facility_postalcode}}
+    {{item.address_facility_country}}
+    {{item.address_shipping_street1}}
+    {{item.address_shipping_street2}}
+    {{item.address_shipping_city}}
+    {{item.address_shipping_state}}
+    {{item.address_shipping_postalcode}}
+    {{item.address_shipping_country}}
+    {{item.address_billing_street1}}
+    {{item.address_billing_street2}}
+    {{item.address_billing_city}}
+    {{item.address_billing_state}}
+    {{item.address_billing_postalcode}}
+    {{item.address_billing_country}}
+    {{item.phone}}
+
+    <!---------------------------
+        start contact manager
+    <!--------------------------->
+
+    <md-content layout-margin>
+        <md-card>
+            <md-card-content>
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h2>Contact Form</h2>
+                        <span flex></span>
+                        <md-button aria-label="Commit Contact" ng-click="Ctrl.commitContact()">
+                            <md-icon><i class="material-icons">check</i> </md-icon>
+                        </md-button>
+                        <md-button aria-label="Cancel Contact" ng-click="Ctrl.cancelContact()">
+                            <md-icon><i class="material-icons">cancel_circle_outline</i></md-icon>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+                <md-content layout="row" flex>
+                    <md-input-container flex>
+                        <label class="col-md-4 control-label">Name</label>
+                        <input type="text" required  ng-model="Ctrl.tempContact.name">
+                    </md-input-container>
+                    <md-divider></md-divider>
+                    <md-input-container flex>
+                        <label class="col-md-4 control-label">Role</label>
+                        <input type="text" required  ng-model="Ctrl.tempContact.role">
+                    </md-input-container>
+                </md-content>
+                <md-content layout="row" flex>
+                    <md-input-container flex>
+                        <label class="col-md-4 control-label">Phone</label>
+                        <input type="text" required  ng-model="Ctrl.tempContact.phone">
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label class="col-md-4 control-label">Email</label>
+                        <input type="text" required  ng-model="Ctrl.tempContact.email">
+                    </md-input-container>
+                </md-content>
+            </md-card-content>
+        </md-card>
+        <md-card>
+            <div class="md-card-content">
+                <md-list ng-if="Ctrl.item.contacts.length">
+                    <md-subheader class="md-1-line" >
+                        <div layout="row" layout-align="space-around center" flex>
+                            <div flex="20">Name</div>
+                            <div flex="15">Role</div>
+                            <div flex="20">Phone</div>
+                            <div flex="20">Email</div>
+                        </div>
+                    </md-subheader>
+                    <md-list-item class="md-1-line" ng-repeat="item in Ctrl.item.contacts" >
+                        <div ng-click="Ctrl.editContact($index)" layout="row" layout-align="space-around center" flex>
+                            <div flex="20">{{item.name}}</div>
+                            <div flex="15">{{item.role}}</div>
+                            <div flex="20">{{item.phone}}</div>
+                            <div flex="20">{{item.email}}</div>
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </div>
+        </md-card>
+    </md-content>
+
+    <!--------------------------------
+            end contact manager
+    ---------------------------------->
+
+    <div layout="column" ng-cloak class="md-inline-form">
+
+        <md-content layout-padding>
+            <md-input-container class="md-block">
+                <label>Address</label>
+                <input ng-model="Ctrl.item.address_facility_street1">
+            </md-input-container>
+            <md-input-container md-no-float class="md-block">
+                <input ng-model="Ctrl.item.address_facility_street2" placeholder="Address 2">
+            </md-input-container>
+            <div layout layout-sm="column">
+                <md-input-container flex>
+                    <label>City</label>
+                    <input ng-model="Ctrl.item.address_facility_city">
+                </md-input-container>
+                <md-input-container flex>
+                    <label>County</label>
+                    <md-select ng-model="Ctrl.item.address_facility_state">
+                        <md-option ng-repeat="county in Ctrl.countyOptions" value="{{county.text}}">
+                            {{county.text}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div layout layout-sm="column">
+                <md-input-container flex>
+                    <label>Country</label>
+                    <input ng-model="Ctrl.item.address_facility_country">
+                </md-input-container>
+                <md-input-container flex>
+                    <label>Postal Code</label>
+                    <input name="postalCode" ng-model="Ctrl.item.address_facility_postalcode" placeholder="12345"
+                           required ng-pattern="/^[0-9]{5}$/" md-maxlength="5">
+                    <div ng-messages="postalCode.$error" role="alert" multiple>
+                        <div ng-message="required" class="my-message">You must supply a postal code.</div>
+                        <div ng-message="pattern" class="my-message">Postal code must be 5 digits.</div>
+                    </div>
+                </md-input-container>
+            </div>
+            <md-input-container class="md-block">
+                <label>Directions</label>
+                <textarea ng-model="Ctrl.item.directions" columns="1" rows="5"></textarea>
+            </md-input-container>
+        </md-content>
+    </div>
+
+
+</md-content>

@@ -1,0 +1,35 @@
+<div ng-controller="CategoriesCtrl as Ctrl">
+   <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Settings">
+                <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+            </md-button>
+            <h2>
+                <span>Product Categories</span>
+            </h2>
+            <span flex></span>
+            <md-button class="md-icon-button" aria-label="Favorite">
+                <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+            </md-button>
+            <md-button aria-label="Create Category" ui-sref="categories.item">
+                <i class="material-icons">add_circle_outline</i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-content flex>
+        <md-list>
+            <md-list-item class="md-3-line" ng-repeat="item in Ctrl.items">
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <h4>
+                        <a ui-sref="categories.item({id:item.id})" >
+                            <i class="fa fa-edit"></i> {{item.title}}
+                        </a>
+                    </h4>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <h4>{{item.data}}</h4>
+                </div>
+            </md-list-item>
+        </md-list>
+    <md-content>
+</div>

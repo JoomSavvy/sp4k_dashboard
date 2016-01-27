@@ -1,0 +1,279 @@
+
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings">
+            <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+        </md-button>
+        <h2>
+            <span>Account Detail</span>
+        </h2>
+        <span flex></span>
+        <div>
+            <md-button tooltip="Save Current Item State"
+                       tooltip-placement="left"
+                       class="md-icon-button"
+                       aria-label="Save"
+                       ng-click="Ctrl.saveItem()">
+                <md-icon><i class="material-icons">check</i></md-icon>
+            </md-button>
+        </div>
+    </div>
+</md-toolbar>
+<md-content>
+    <div layout="row" layout-align="space-around center" flex>
+        <div>
+            <h3>ID:{{Ctrl.item.id}}</h3>
+        </div>
+        <div>
+            <h3>Created:{{Ctrl.item.created * 1000  | date:'dd/MM/yyyy'}}</h3>
+        </div>
+    </div>
+
+    <md-card layout-margin>
+        <md-card-content>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>
+                        <span>Parents</span>
+                    </h2>
+                    <span flex></span>
+                    <md-button aria-label="Create Account" ui-sref="parents.item({account:Ctrl.item.id})">
+                        <md-icon><i class="material-icons">add_circle_outline</i></md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-subheader class="md-4-line" >
+                <div layout="row" layout-align="space-around center" flex>
+                    <div flex="10">Primary    </div>
+                    <div flex="30">Name     </div>
+                    <div flex="30">Email      </div>
+                    <div flex>Phone      </div>
+                </div>
+            </md-subheader>
+            <md-divider></md-divider>
+            <md-list ng-if="Ctrl.item.parents.length">
+                <md-radio-group ng-model="Ctrl.selectedPrimaryParent"
+                                ng-model-options="{ getterSetter : true }" >
+                <md-list-item  class="md-3-line" ng-repeat="parent in Ctrl.item.parents">
+                    <div flex="10">
+                        <md-radio-button class="md-primary" ng-value="parent.id"></md-radio-button>
+                    </div>
+                    <div flex="30">
+                        <a ui-sref="parents.item({id:parent.id})" >
+                            <i class="fa fa-edit"></i> {{parent.name}}
+                        </a>
+                    </div>
+                    <div flex="30">
+                        {{parent.email}}
+                    </div>
+                    <div flex>
+                        {{parent.phone_mobile}}
+                    </div>
+                </md-list-item>
+            </md-list>
+            <h1 ng-if="!Ctrl.item.parents.length">No Parents To Display</h1>
+            <md-divider class="md-3-line"></md-divider>
+        </md-card-content>
+    </md-card>
+    <md-card layout-margin flex>
+        <md-card-content>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>
+                        <span>Children</span>
+                    </h2>
+                    <span flex></span>
+                    <md-button aria-label="Add Child" ng-click="Ctrl.showAddChildForm()">
+                        <md-icon><i class="material-icons">add_circle_outline</i></md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-content layout-margin ng-if="Ctrl.addChildForm" flex>
+                <md-card>
+                    <md-card-content>
+                        <md-toolbar>
+                            <div class="md-toolbar-tools">
+                                <h2>Edit Child</h2>
+                                <span flex></span>
+                                <md-button aria-label="Commit Child" ng-click="Ctrl.commitChildForm()">
+                                    <md-icon><i class="material-icons">check</i> </md-icon>
+                                </md-button>
+                                <md-button aria-label="Cancel Child" ng-click="Ctrl.cancelAddChildForm()">
+                                    <md-icon><i class="material-icons">cancel_circle_outline</i></md-icon>
+                                </md-button>
+                            </div>
+                        </md-toolbar>
+                        <md-input-container flex>
+                            <label class="col-md-4 control-label">Name</label>
+                            <input type="text" required  ng-model="Ctrl.newChild.name">
+                        </md-input-container>
+                        <md-divider></md-divider>
+                        <div>
+                            <label class="col-md-4 control-label">DOB</label>
+                            <md-datepicker
+                                    ng-model="Ctrl.newChild.dob"
+                                    ng-model-options="{ getterSetter: true }"
+                                    md-placeholder="Enter date"></md-datepicker>
+                        </div>
+                    </md-card-content>
+                </md-card>
+            </md-content>
+            <md-divider class="md-3-line"></md-divider>
+            <md-subheader class="md-4-line" >
+                <div layout="row" layout-align="space-around center" flex>
+                    <div flex="40">Name    </div>
+                    <div flex="40">Dob     </div>
+                    <div flex>Remove      </div>
+                </div>
+            </md-subheader>
+            <md-content layout-margin>
+                <md-list ng-if="Ctrl.item.children.length">
+
+                    <md-list-item  class="md-3-line" ng-repeat="child in Ctrl.item.children" flex>
+                        <div  ng-click="Ctrl.editChild($index)" flex="80">
+                            <div flex="40">
+                                {{child.name}}
+                            </div>
+                            <div flex="10">
+                                {{child.dob * 1000 | date:'shortDate'}}
+                            </div>
+                        </div>
+
+                        <div flex>
+                            <md-button ng-click="Ctrl.removeChild($index)">
+                                <md-icon><i class="material-icons">cancel_circle_outline</i></md-icon>
+                            </md-button>
+                        </div>
+                    </md-list-item>
+                </md-list>
+                <h1 ng-if="!Ctrl.item.children.length">No Children To Display</h1>
+            </md-content>
+        </md-card-content>
+    </md-card>
+    <md-card layout-margin>
+        <md-card-content>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>
+                        <span>Orders</span>
+                    </h2>
+                    <span flex></span>
+                    <md-button aria-label="Add Order" ui-sref="orders.item({account_id:Ctrl.item.id})">
+                        <md-icon><i class="material-icons">add_circle_outline</i></md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-subheader class="md-4-line" >
+                <div layout="row" layout-align="space-around center" flex>
+                    <div flex="10">                 </div>
+                    <div flex="20">Created          </div>
+                    <div flex>Source                </div>
+                </div>
+            </md-subheader>
+            <md-list ng-if="Ctrl.item.orders.length">
+                <md-list-item  class="md-3-line" ng-repeat="order in Ctrl.item.orders">
+                    <div flex="10">
+                        <a ui-sref="orders.item({id:order.id})" >
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </div>
+                    <div flex="20">
+                        {{order.created * 1000 | date:'dd/MM/yyyy'}}
+                    </div>
+                    <div flex>
+                        {{order.source}}
+                    </div>
+                </md-list-item>
+            </md-list>
+            <h1 ng-if="!Ctrl.item.orders.length">No Orders To Display</h1>
+            <md-divider class="md-3-line"></md-divider>
+        </md-card-content>
+    </md-card>
+    <md-card layout-margin>
+        <md-card-content>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>
+                        <span>Subscriptions</span>
+                    </h2>
+                    <span flex></span>
+                    <md-button aria-label="Add Subscription" ui-sref="subscription.item">
+                        <md-icon><i class="material-icons">add_circle_outline</i></md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-subheader class="md-4-line" >
+                <div layout="row" layout-align="space-around center" flex>
+                    <div flex="10">                 </div>
+                    <div flex="40">Product Name     </div>
+                    <div flex>Bill Date             </div>
+                </div>
+            </md-subheader>
+            <md-list ng-if="Ctrl.item.subscriptions.length">
+                <md-list-item  class="md-3-line" ng-repeat="subscription in Ctrl.item.subscriptions">
+                    <div flex="10">
+                        <a ui-sref="subscription.item({id:subscription.id})" >
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </div>
+                    <div flex="40">
+                        {{subscription.product_id | productname:Ctrl.item.orders:subscription.order_id}}
+                    </div>
+                    <div flex>
+                        {{subscription.bill_date}}
+                    </div>
+                </md-list-item>
+            </md-list>
+            <h1 ng-if="!Ctrl.item.subscriptions.length">No subscriptions To Display</h1>
+            <md-divider class="md-3-line"></md-divider>
+        </md-card-content>
+    </md-card>
+    <md-card layout-margin>
+        <md-card-content>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h2>
+                        <span>Registrations</span>
+                    </h2>
+                    <span flex></span>
+                    <md-button aria-label="Add REgistration" ui-sref="registration.item">
+                        <md-icon><i class="material-icons">add_circle_outline</i></md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-subheader class="md-4-line" >
+                <div layout="row" layout-align="space-around center" flex>
+                    <div flex="5"></div>
+                    <div flex="20">Child Name       </div>
+                    <div flex="40">Product Name     </div>
+                    <div flex="15">Date Start       </div>
+                    <div flex>Date End              </div>
+                </div>
+            </md-subheader>
+            <md-list ng-if="Ctrl.item.registrations.length">
+                <md-list-item  class="md-3-line" ng-repeat="registration in Ctrl.item.registrations">
+                    <div flex="5">
+                        <a ui-sref="registrations.item({id:registration.id})" >
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </div>
+                    <div flex="20">
+                        {{registration.child_id | childname:Ctrl.item.children}}
+                    </div>
+                    <div flex="40">
+                        {{registration.product_id | productname:Ctrl.item.orders:registration.order_id}}
+                    </div>
+                    <div flex="15">
+                        {{registration.date_start * 1000  | date:'dd/MM/yyyy'}}
+                    </div>
+                    <div flex>
+                        {{registration.date_end * 1000  | date:'dd/MM/yyyy'}}
+                    </div>
+                </md-list-item>
+            </md-list>
+            <h1 ng-if="!Ctrl.item.registrations.length">No registrations To Display</h1>
+            <md-divider class="md-3-line"></md-divider>
+        </md-card-content>
+    </md-card>
+</md-content>

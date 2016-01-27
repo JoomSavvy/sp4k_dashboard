@@ -1,0 +1,109 @@
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" >
+        <md-toolbar layout="row">
+            <div class="md-toolbar-tools" ng-controller="LeftCtrl" >
+                <h1>Filters</h1>
+                <span flex></span>
+                <md-button ng-click="close()" class="md-primary" md-sidenav-focus>Close</md-button>
+            </div>
+
+        </md-toolbar>
+        <md-content>
+            <md-input-container flex>
+                <label>State</label>
+                <md-select aria-label placeholder="state" ng-model="Ctrl.filters.state">
+                    <md-option ng-repeat="state in [{text:'current',value:1},{text:'archive',value:0}]" value="{{state.value}}">
+                        {{state.text}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container flex>
+                <label>Status</label>
+                <md-select placeholder="Status" ng-model="Ctrl.filters.status">
+                    <md-option ng-repeat="status in Ctrl.statusOptions" value="{{status.value}}">
+                        {{status.text}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </md-content>
+    </md-sidenav>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Settings">
+                <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+            </md-button>
+            <h2>
+                <span>Registrations</span>
+            </h2>
+            <span flex></span>
+            <md-button ng-click="Ctrl.toggleLeft()" ng-hide="Ctrl.isOpenLeft()">
+                Toggle Filters
+            </md-button>
+            <md-button aria-label="Create Product" ui-sref="products.item">
+                <md-icon><i class="material-icons">add_circle_outline</i></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-tooldbar>
+        <div class="md-toolbar-tools">Page: {{Ctrl.currentPage}}</div>
+    </md-tooldbar>
+    <md-content>
+        <md-subheader class="md-1-line">
+            <div class="col-xs-12 col-sm-1 col-md-1">
+                ID
+            </div>
+            <div class="col-xs-12 col-sm-2 col-md-2">
+                Start Date
+            </div>
+            <div class="col-xs-12 col-sm-2 col-md-2">
+                End Date
+            </div>
+            <div class="col-xs-12 col-sm-3 col-md-3">
+                Child Name
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4">
+                Product Name
+            </div>
+        </md-subheader>
+
+        <md-divider class="md-3-line"></md-divider>
+
+        <md-list ng-if="Ctrl.items.length">
+            <md-list-item class="md-3-line"
+                          dir-paginate="item in Ctrl.items | itemsPerPage: Ctrl.pageSize"
+                          current-page="Ctrl.currentPage"
+                          pagination-id="registrations"
+                          total-items="Ctrl.total_items">
+                <div class="col-xs-12 col-sm-1 col-md-1">
+                    <a ui-sref="registrations.item({id:item.id})" >
+                        <i class="fa fa-edit"></i> {{item.id}}
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-2 col-md-2">
+                    {{item.date_start * 1000 | date:'shortDate'}}
+                </div>
+                <div class="col-xs-12 col-sm-2 col-md-2">
+                    {{item.date_end * 1000 | date:'shortDate'}}
+                </div>
+                <div class="col-xs-12 col-sm-3 col-md-3">
+                    <a ui-sref="children.item({id:item.child_id})" >
+                        <i class="fa fa-edit"></i> {{item.child_name}}
+                    </a>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4">
+                    <a ui-sref="products.item({id:item.product_id})" >
+                        <i class="fa fa-edit"></i> {{item.product_name}}
+                    </a>
+                </div>
+                <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+        </md-list>
+        <dir-pagination-controls ng-if="Ctrl.items.length"
+                direction-links="true"
+                boundary-links="true"
+                auto-hide="true"
+                pagination-id="registrations"
+                ></dir-pagination-controls>
+        <h1 ng-if="!Ctrl.items.length">No Registrations To Display</h1>
+    </md-content>
+
+

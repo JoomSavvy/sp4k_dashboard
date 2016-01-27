@@ -1,0 +1,25 @@
+<md-content layout="column" flex>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Settings">
+                <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+            </md-button>
+            <h2>
+                <span>Products</span>
+            </h2>
+            <span flex></span>
+            <md-button class="md-icon-button" aria-label="Favorite">
+                <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+            </md-button>
+            <md-button aria-label="Create Product" ui-sref="products.item">
+                <md-icon><i class="material-icons">add_circle_outline</i></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-content flex>
+        <div id="test">
+        </div>
+        <h1 ng-if="!Ctrl.items.length">No Products To Display</h1>
+    </md-content>
+
+</md-content>

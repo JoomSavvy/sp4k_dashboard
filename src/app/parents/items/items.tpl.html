@@ -1,0 +1,120 @@
+<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" >
+    <md-toolbar layout="row">
+        <div class="md-toolbar-tools" ng-controller="LeftCtrl" >
+            <h1>Filters</h1>
+            <span flex></span>
+            <md-button ng-click="close()" class="md-primary" md-sidenav-focus>Close</md-button>
+        </div>
+    </md-toolbar>
+    <md-content>
+        <md-input-container flex>
+            <label>State</label>
+            <md-select aria-label placeholder="state" ng-model="Ctrl.filters.state">
+                <md-option ng-repeat="state in [{text:'current',value:1},{text:'archive',value:0}]" value="{{state.value}}">
+                    {{state.text}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container flex>
+            <label>Status</label>
+            <md-select placeholder="Status" ng-model="Ctrl.filters.status">
+                <md-option ng-repeat="status in Ctrl.statusOptions" value="{{status.value}}">
+                    {{status.text}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container>
+            <lable>Mobile Number</lable>
+            <input ng-model="Ctrl.filters.phone_mobile"></input>
+        </md-input-container>
+        <md-input-container ng-controller="ParentSearchCtrl as Ctrl">
+            <label>Paren Name</label>
+            <md-autocomplete
+                    md-delay="500"
+                    ng-disabled="false"
+                    md-no-cache="false"
+                    md-selected-item="Ctrl.parent"
+                    md-search-text-change="Ctrl.searchTextChange(Ctrl.searchText)"
+                    md-search-text="Ctrl.searchText"
+                    md-selected-item-change="Ctrl.selectedItemChange(item)"
+                    md-items="item in Ctrl.querySearch(Ctrl.searchText)"
+                    md-item-text="item.f_name + ' ' + item.l_name"
+                    md-min-length="0">
+                <md-item-template>
+                    <span md-highlight-text="Ctrl.searchText" md-highlight-flags="^i">{{item.f_name}} {{item.l_name}}</span>
+                </md-item-template>
+                <md-not-found>
+                    No parents matching "{{Ctrl.parentSearchText}}" were found.<br/>
+                    <a ng-click="angular.noop()">Create a new one!(Coming Soon)</a>
+                </md-not-found>
+            </md-autocomplete>
+        </md-input-container>
+    </md-content>
+</md-sidenav>
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings">
+            <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+        </md-button>
+        <h2>
+            <span>Parents</span>
+        </h2>
+        <span flex></span>
+        <md-button ng-click="Ctrl.toggleLeft()" ng-hide="Ctrl.isOpenLeft()">
+            Toggle Filters
+        </md-button>
+        <md-button class="md-icon-button" aria-label="add"  ui-sref="parents.item">
+            <md-icon><i class="material-icons">add_circle_outline</i></md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-content flex>
+    <md-subheader class="md-4-line" >
+        <div layout="row" layout-align="space-around center" flex>
+            <div flex="4"></div>
+            <div flex="10">Created      </div>
+            <div flex="20">Name         </div>
+            <div flex="20">Mobile #     </div>
+            <div flex>Email             </div>
+        </div>
+    </md-subheader>
+    <md-list ng-if="Ctrl.items.length">
+        <md-list-item class="md-1-line" class="md-3-line"
+                      dir-paginate="item in Ctrl.items | itemsPerPage: Ctrl.pageSize"
+                      current-page="Ctrl.currentPage"
+                      pagination-id="orders"
+                      total-items="Ctrl.total_items">
+            <div layout="row" layout-align="space-around center" flex>
+                <div flex="4">
+                    <a ui-sref="parents.item({id:item.id})">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </div>
+                <div flex="10">
+                    {{item.created * 1000 | date:'shortDate' }}
+                </div>
+                <div flex="20">
+                    <a ui-sref="parents.item({id:item.id})">
+                        {{item.juser.name}}
+                    </a>
+                </div>
+                <div flex="20">
+                    {{item.phone_mobile}}
+                </div>
+                <div flex>
+                    {{item.juser.email}}
+                </div>
+
+            </div>
+        </md-list-item>
+    </md-list>
+    <dir-pagination-controls ng-if="Ctrl.items.length"
+                             direction-links="true"
+                             boundary-links="true"
+                             auto-hide="true"
+                             pagination-id="orders"
+            ></dir-pagination-controls>
+    <div class="empty_result">
+        <h1 ng-if="!Ctrl.items.length">No Parents To Display</h1>
+    </div>
+</md-content>

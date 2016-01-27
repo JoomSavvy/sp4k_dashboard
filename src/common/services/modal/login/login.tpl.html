@@ -1,0 +1,28 @@
+<!-- views/loginModalTemplate.html -->
+
+<div ng-controller="LoginModalCtrl as Ctrl">
+
+        <div class="form-group col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <div class="form-control">
+                User Type:
+                <a href="#" editable-select="Ctrl.userId" e-ng-options="o.value as o.text for o in Ctrl.userTypeOptions">
+                    {{ Ctrl.showUserTypeOptions() }}
+                </a>
+            </div>
+        </div>
+
+        <button ng-click="Ctrl.submit()">Submit</button>
+        <button ng-click="Ctrl.cancel()">Cancel</button>
+
+
+
+    <div style="display: none;">
+        <form ng-submit="Ctrl.submit()">
+            <input type="email" ng-model="_email" />
+            <input type="password" ng-model="_password" />
+        </form>
+
+    </div>
+
+
+</div>

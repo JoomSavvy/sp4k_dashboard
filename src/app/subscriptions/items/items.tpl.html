@@ -1,0 +1,100 @@
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" >
+        <md-toolbar layout="row">
+            <div class="md-toolbar-tools" ng-controller="LeftCtrl" >
+                <h1>Filters</h1>
+                <span flex></span>
+                <md-button ng-click="close()" class="md-primary" md-sidenav-focus>Close</md-button>
+            </div>
+
+        </md-toolbar>
+        <md-content>
+            <md-input-container flex>
+                <label>State</label>
+                <md-select aria-label placeholder="state" ng-model="Ctrl.filters.state">
+                    <md-option ng-repeat="state in [{text:'current',value:1},{text:'archive',value:0}]" value="{{state.value}}">
+                        {{state.text}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container flex>
+                <label>Status</label>
+                <md-select aria-label placeholder="Status" ng-model="Ctrl.filters.status">
+                    <md-option ng-repeat="status in Ctrl.statusOptions" value="{{status.value}}">
+                        {{status.text}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+        </md-content>
+    </md-sidenav>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Settings">
+                <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+            </md-button>
+            <h2>
+                <span>Subscriptions </span>
+            </h2>
+            Page: {{Ctrl.currentPage}}
+            <span flex></span>
+            <md-button ng-click="Ctrl.toggleLeft()" ng-hide="Ctrl.isOpenLeft()">
+                Toggle Filters
+            </md-button>
+            <md-button aria-label="Create Product" ui-sref="products.item">
+                <md-icon><i class="material-icons">add_circle_outline</i></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-content>
+        <md-subheader class="md-1-line">
+            <div layout="row" flex>
+                <div flex="5"></div>
+                <div flex="10">Order</div>
+                <div flex="10">Account</div>
+                <div flex="35">Product</div>
+                <div flex="15">Start Date</div>
+                <div flex>End Date</div>
+            </div>
+
+        </md-subheader>
+        <md-list ng-if="Ctrl.items.length">
+            <md-list-item class="md-1-line"
+                          dir-paginate="item in Ctrl.items | itemsPerPage: Ctrl.pageSize"
+                          current-page="Ctrl.currentPage"
+                          pagination-id="registrations"
+                          total-items="Ctrl.total_items">
+                <div flex="5">
+                    <a ui-sref="subscriptions.item({id:item.id})" >
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </div>
+                <div flex="10">
+                    <a ui-sref="orders.item({id:item.order_id})" >
+                        <i class="fa fa-edit"></i> {{item.order_id}}
+                    </a>
+                </div>
+                <div flex="10">
+                    <a ui-sref="accounts.item({id:item.account_id})" >
+                        <i class="fa fa-edit"></i> {{item.account_id}}
+                    </a>
+                </div>
+                <div flex="35">
+                    {{item.product.title}}
+                </div>
+                <div flex="15">
+                    {{item.date_start * 1000 | date:'dd/MM/yyyy'}}
+                </div>
+                <div flex>
+                    {{item.date_end * 1000 | date:'dd/MM/yyyy'}}
+                </div>
+            </md-list-item>
+        </md-list>
+        <dir-pagination-controls ng-if="Ctrl.items.length"
+                direction-links="true"
+                boundary-links="true"
+                auto-hide="true"
+                pagination-id="registrations"
+                ></dir-pagination-controls>
+        <h1 ng-if="!Ctrl.items.length">No Subscriptions To Display</h1>
+    </md-content>
+
+

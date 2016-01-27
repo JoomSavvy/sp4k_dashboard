@@ -1,0 +1,131 @@
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" >
+        <md-toolbar layout="row">
+            <div class="md-toolbar-tools" ng-controller="LeftCtrl" >
+                <h1>Filters</h1>
+                <span flex></span>
+                <md-button ng-click="close()" class="md-primary" md-sidenav-focus>Close</md-button>
+            </div>
+        </md-toolbar>
+        <md-content>
+            <md-input-container flex>
+                <label>State</label>
+                <md-select aria-label placeholder="state" ng-model="Ctrl.filters.state">
+                    <md-option ng-repeat="state in [{text:'current',value:1},{text:'archive',value:0}]" value="{{state.value}}">
+                        {{state.text}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container flex>
+                <label>Status</label>
+                <md-select placeholder="Status" ng-model="Ctrl.filters.status">
+                    <md-option ng-repeat="status in Ctrl.statusOptions" value="{{status.value}}">
+                        {{status.text}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+            <div layout="column" layout-fill flex>
+                <label>Date Range</label>
+                <md-datepicker  ng-model="Ctrl.orderDate.min()" ng-model-options="{getterSetter:true}" md-placeholder="Min" layout-fill flex></md-datepicker>
+                <md-datepicker  ng-model="Ctrl.orderDate.max()" ng-model-options="{getterSetter:true}" md-placeholder="Max" layout-fill flex></md-datepicker>
+            </div>
+            <div layout="column" flex>
+                <label>Total Range</label>
+                <div layout="row">
+                    <md-input-container flex>
+                        <label>Min</label>
+                        <input ng-model="Ctrl.filters.orderTotal.min"/>
+                    </md-input-container>
+                    <md-input-container flex>
+                        <label>Max</label>
+                        <input ng-model="Ctrl.filters.orderTotal.max"/>
+                    </md-input-container>
+                </div>
+            </div>
+            <div ng-controller="ParentSearchCtrl as Ctrl">
+                <label>Parent Name</label>
+                <md-autocomplete
+                        md-delay="500"
+                        ng-disabled="false"
+                        md-no-cache="false"
+                        md-selected-item="Ctrl.parent"
+                        md-search-text-change="Ctrl.searchTextChange(Ctrl.searchText)"
+                        md-search-text="Ctrl.searchText"
+                        md-selected-item-change="Ctrl.selectedItemChange(item)"
+                        md-items="item in Ctrl.querySearch(Ctrl.searchText)"
+                        md-item-text="item.f_name + ' ' + item.l_name"
+                        md-min-length="0"
+                        placeholder="Parent Name">
+                    <md-item-template>
+                        <span md-highlight-text="Ctrl.searchText" md-highlight-flags="^i">{{item.f_name}} {{item.l_name}}</span>
+                    </md-item-template>
+                    <md-not-found>
+                        No matches found.
+                    </md-not-found>
+                </md-autocomplete>
+            </div>
+        </md-content>
+    </md-sidenav>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Settings">
+                <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+            </md-button>
+            <h2>
+                <span>Orders</span>
+            </h2>
+            <span flex></span>
+            <md-button ng-click="Ctrl.toggleLeft()" ng-hide="Ctrl.isOpenLeft()">
+                Toggle Filters
+            </md-button>
+            <md-button aria-label="Create Order" ui-sref="orders.item">
+                <md-icon><i class="material-icons">add_circle_outline</i></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-content>
+        <md-subheader class="md-1-line">
+            <div layout="row" flex>
+                <div flex="5"></div>
+                <div flex="20">
+                    Created
+                </div>
+                <div flex="20">
+                    Parent
+                </div>
+                <div flex>
+                    Total
+                </div>
+            </div>
+        </md-subheader>
+        <md-divider class="md-1-line"></md-divider>
+        <md-list ng-if="Ctrl.items.length">
+            <md-list-item  class="md-3-line"
+                           dir-paginate="item in Ctrl.items | itemsPerPage: Ctrl.pageSize"
+                           current-page="Ctrl.currentPage"
+                           pagination-id="orders"
+                           total-items="Ctrl.total_items">
+                <div flex="5">
+                    <a ui-sref="orders.item({id:item.id})" >
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </div>
+                <div flex="20">
+                    {{item.created * 1000 | date:'dd/MM/yyyy'}}
+                </div>
+                <div flex="20">
+                    {{item.parent.f_name+' '+item.parent.l_name}}
+                </div>
+                <div flex>
+                    {{item.total}}
+                </div>
+
+            </md-list-item>
+        </md-list>
+        <dir-pagination-controls ng-if="Ctrl.items.length"
+                                 direction-links="true"
+                                 boundary-links="true"
+                                 auto-hide="true"
+                                 pagination-id="orders"
+                ></dir-pagination-controls>
+        <h1 ng-if="!Ctrl.items.length">No Orders To Display</h1>
+    </md-content>

@@ -1,0 +1,31 @@
+<div ng-controller="ProductsItemEventCtrl as Ctrl">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Settings">
+                <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+            </md-button>
+            <h2>
+                Event Detail:{{ Ctrl.item.product_id || 'PRODUCT TITLE' }} at
+                <a href="#" editable-select="Ctrl.item.venue_id" e-ng-options="o.id as o.title for o in Ctrl.venueOptions">
+                    {{ Ctrl.showVenue() || 'SELECT VENUE' }}
+                </a>
+            </h2>
+            <span flex></span>
+            <md-button class="md-icon-button" aria-label="Favorite">
+                <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+            </md-button>
+            <md-button class="md-icon-button" aria-label="More" ng-click="Ctrl.saveItem()">
+                <md-icon><i class="material-icons">check</i></md-icon>
+            </md-button>
+
+        </div>
+    </md-toolbar>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-md-4 control-label">Cost Modifier:</label>
+            <a href="#" class="form-control input-sm"  editable-text="Ctrl.item.costmod">
+                {{ Ctrl.item.costmod || 'Cost Modifier' }}
+            </a>
+        </div>
+    </div>
+</div>

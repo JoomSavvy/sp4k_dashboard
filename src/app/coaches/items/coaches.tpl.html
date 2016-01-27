@@ -1,0 +1,151 @@
+<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" >
+    <md-toolbar layout="row">
+        <div class="md-toolbar-tools" ng-controller="LeftCtrl" >
+            <h1>Filters</h1>
+            <span flex></span>
+            <md-button ng-click="close()" class="md-primary" md-sidenav-focus>Close</md-button>
+        </div>
+    </md-toolbar>
+    <md-content layout="column" flex>
+        <md-input-container>
+            <label>State</label>
+            <md-select placeholder="state" ng-model="Ctrl.filters.state">
+                <md-option ng-repeat="state in [{text:'current',value:1},{text:'archive',value:0}]" value="{{state.value}}">
+                    {{state.text}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container>
+            <label>Role</label>
+            <md-select placeholder="Role" ng-model="Ctrl.filters.role">
+                <md-option ng-repeat="role in
+                    [   {text:'Any',value:'any'},
+                        {text:'Lead',value:'Lead'},
+                        {text:'Support',value:'Support'},
+                        {text:'Trainee',value:'Trainee'}
+                    ]" value="{{role.value}}">
+                    {{role.text}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container>
+            <label>Town/City</label>
+            <input ng-model="Ctrl.filters.city"/>
+        </md-input-container>
+        <md-input-container>
+            <label>Day of the Week</label>
+            <md-select md-on-close="Ctrl.evalFiltersDoftw()" multiple="true" ng-change="angular.noop()" placeholder="Day of the Week" ng-model="Ctrl.doftw">
+                <md-option ng-repeat="doftw in [
+                    {
+                        text:'Monday',
+                        value: 'doftw1'},
+                    {
+                        text:'Tuesday',
+                        value: 'doftw2'},
+                    {
+                        text:'Wednesday',
+                        value: 'doftw3'},
+                    {
+                        text:'Thursday',
+                        value: 'doftw4'},
+                    {
+                        text:'Friday',
+                        value: 'doftw5'},
+                    {
+                        text:'Saturday',
+                        value: 'doftw6'},
+                    {
+                        text:'Sunday',
+                        value:'doftw7'
+                        }
+                    ]" value="{{doftw.value}}">
+                    {{doftw.text}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container>
+            <md-checkbox ng-model="Ctrl.filters.kitholder" ng-false-value="0" ng-true-value="1">Kit Holder</md-checkbox>
+        </md-input-container>
+        <md-input-container>
+            <md-checkbox ng-model="Ctrl.filters.driving" ng-false-value=0 ng-true-value=1>Driving</md-checkbox>
+        </md-input-container>
+    </md-content>
+</md-sidenav>
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings">
+            <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+        </md-button>
+        <h2>
+            <span>Coaches</span>
+        </h2>
+        <span flex></span>
+        <md-button class="md-icon-button" aria-label="Favorite">
+            <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+        </md-button>
+        <md-button ng-click="Ctrl.toggleLeft()" ng-hide="Ctrl.isOpenLeft()">
+            Toggle Filters
+        </md-button>
+        <md-button aria-label="Add Coach" ui-sref="coaches.item">
+            <md-icon><i class="material-icons">add_circle_outline</i></md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-content>
+    <md-subheader class="md-3-line">
+        <div layout="row">
+            <div flex="5"></div>
+            <div flex="15">
+                Name
+            </div>
+            <div flex="20">
+                Town/City
+            </div>
+            <div flex="15">
+                Phone
+            </div>
+            <div flex="20">
+                Email
+            </div>
+            <div>
+                Driving
+            </div>
+        </div>
+    </md-subheader>
+    <md-list ng-if="Ctrl.items.length">
+        <md-list-item class="md-1-line"
+                      dir-paginate="item in Ctrl.items | itemsPerPage: Ctrl.pageSize"
+                      current-page="Ctrl.currentPage"
+                      pagination-id="coaches"
+                      total-items="Ctrl.total_items">
+            <div flex="5">
+                <a ui-sref="coaches.item({id:item.id})" >
+                    <i class="fa fa-edit"></i>
+                </a>
+            </div>
+            <div flex="15">
+                {{item.name}}
+            </div>
+            <div flex="20">
+                {{item.city}}
+            </div>
+            <div flex="15">
+                {{item.phone}}
+            </div>
+            <div flex="20">
+                {{item.email}}
+            </div>
+            <div flex>
+                {{item.driving | yesno}}
+            </div>
+        </md-list-item>
+    </md-list>
+
+    <h1 ng-if="!Ctrl.items.length">No Coaches To Display</h1>
+</md-content>
+<dir-pagination-controls ng-if="Ctrl.items.length"
+                         direction-links="true"
+                         boundary-links="true"
+                         auto-hide="true"
+                         pagination-id="coaches"
+        ></dir-pagination-controls>

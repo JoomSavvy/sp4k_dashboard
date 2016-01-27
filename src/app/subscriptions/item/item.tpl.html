@@ -1,0 +1,338 @@
+<div>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button class="md-icon-button" aria-label="Settings">
+                <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+            </md-button>
+            <h2>
+                <div class="form-horizontal">
+                    Product Name:
+                    <a href="#" editable-text="Ctrl.item.title">
+                        {{ Ctrl.item.title || '_____' }}
+                    </a>
+                </div>
+            </h2>
+            <span flex></span>
+            <md-button
+                    tooltip="Manage Events For This Product"
+                    tooltip-placement="left"
+                    class="md-icon-button"
+                    aria-label="Favorite"
+                    ui-sref="events({productId:Ctrl.item.id})">
+                <md-icon>
+                    <i class="material-icons">event_note</i>
+                </md-icon>
+            </md-button>
+            <md-button tooltip="Save Current Item State"
+                       tooltip-placement="left"
+                       class="md-icon-button"
+                       aria-label="Save"
+                       ng-click="Ctrl.saveItem()">
+                <md-icon><i class="material-icons">check</i></md-icon>
+            </md-button>
+            <div class="test">
+                <md-button class="md-icon-button md-warn"
+                           tooltip="Delete Current Item"
+                           tooltip-placement="left"
+                           aria-label="More"
+                           ng-click="Ctrl.deleteItem()">
+                    <md-icon> <i class="material-icons">delete</i> </md-icon>
+                </md-button>
+            </div>
+
+        </div>
+    </md-toolbar>
+    <md-content>
+            <div class="well">
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Description:</label>
+                    <a  class="input-md" href="#" editable-textarea="Ctrl.item.description" e-rows="7" e-cols="60">
+                        {{ Ctrl.item.description || '_____' }}
+                    </a>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Product Category:</label>
+                    <a href="#" editable-select="Ctrl.item.category_id" e-ng-options="o.id as o.title for o in Ctrl.categoryOptions">
+                        {{ Ctrl.showCategory() || '_____' }}
+                    </a>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Parent Product:</label>
+                    <a href="#" editable-select="Ctrl.item.parent_id" e-ng-options="o.id as o.title for o in Ctrl.parentOptions">
+                        {{ Ctrl.showParent() || '_____' }}
+                    </a>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Require Membership:</label>
+                    <input type="checkbox" ng-model="Ctrl.item.config.membersonly"/>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Cart Limit:</label>
+                    <a href="#" editable-text="Ctrl.item.config.limit">
+                        {{ Ctrl.item.config.limit || '0' }}
+                    </a>
+                </div>
+                <div class="form-group">
+                    <label for="taster_enable" class="col-md-4 control-label">Enable Taster:</label>
+                    <input id="taster_enable" type="checkbox" ng-model="Ctrl.item.config.taster"/>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Cart Display Options:</label>
+                    <a href="#"
+                       editable-select="Ctrl.item.config.display"
+                       e-ng-options="o.value as o.text for o in Ctrl.cartDisplayOptions">
+                        {{ Ctrl.showCartDisplayType() || '_____' }}
+                    </a>
+                </div>
+            </div>
+
+            <uib-tabset >
+                <uib-tab heading="Booking">
+                    <div class="well">
+                        <fieldset>
+                            <legend>Booking</legend>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Enable Booking</label>
+                                <input type="checkbox" ng-model="Ctrl.item.config.booking.enabled"/>
+                            </div>
+                            <div ng-show="Ctrl.item.config.booking.enabled" class="fade-in">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Select Venue</label>
+                                    <a href="#"
+                                       editable-select="Ctrl.item.config.booking.venue_id"
+                                       e-ng-options="o.id as o.title for o in Ctrl.venueOptions">
+                                        {{ Ctrl.showVenue() || '_____' }}
+                                    </a>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Booking Type:</label>
+                                    <a href="#"
+                                       editable-select="Ctrl.item.config.booking.type"
+                                       e-ng-options="o.value as o.text for o in Ctrl.bookingTypeOptions">
+                                        {{ Ctrl.showBookingType() || '_____' }}
+                                    </a>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Enable Age Groups</label>
+                                    <input type="checkbox" ng-model="Ctrl.item.config.booking.agegroups.enabled">
+                                </div>
+                                <div ng-show="Ctrl.item.config.booking.agegroups.enabled">
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Age Group:</label>
+                                        <a href="#"
+                                           editable-select="Ctrl.item.config.booking.agegroups.agegroup"
+                                           e-ng-options="o.id as o.title for o in Ctrl.ageGroupOptions">
+                                            {{ Ctrl.showAgeGroup() || '_____' }}
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Capacity:</label>
+                                    <a href="#" editable-text="Ctrl.item.config.booking.capacity">
+                                        {{ Ctrl.item.config.booking.capacity || '_____' }}
+                                    </a>
+                                </div>
+
+                            </div>
+                        </fieldset>
+
+                    </div>
+                </uib-tab>
+                <uib-tab heading="Schedule">
+                    <div class="well well-large">
+                        <lable>Enable Scheduling</lable>
+                        <input type="checkbox", ng-model="Ctrl.item.config.schedule.enabled"/>
+                        <div ng-show="Ctrl.item.config.schedule.enabled">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Schedule Type</label>
+                                <a href="#" editable-select="Ctrl.item.config.schedule.type" e-ng-options="o.value as o.text for o in Ctrl.scheduleTypeOptions">
+                                    {{ Ctrl.showScheduleType() || '_____' }}
+                                </a>
+                            </div>
+                            <div>
+                            <div ng-if="Ctrl.item.config.schedule.type == 'datespan' || Ctrl.item.config.schedule.type == 'recurring'">
+                                <div class="well well-small">
+                                    <fieldset>
+                                        <legend>Schedule</legend>
+                                        <fieldset>
+                                            <div rg-range-picker="Ctrl.dateTimeRange" labels="Ctrl.dateTimeLabels"></div>
+                                        </fieldset>
+                                        <div ng-if="Ctrl.item.config.schedule.type == 'recurring'">
+                                            <fieldset>
+                                                <legend>Recurrence</legend>
+                                                <rrule-recurring-select  rule="Ctrl.item.config.schedule.rrule"></rrule-recurring-select>
+                                            </fieldset>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Exclude Dates</legend>
+                                        <div class="col-md-6">
+                                            <uib-datepicker ng-model='Ctrl.activeDate' multi-select='Ctrl.item.config.schedule.exdates' select-range='false'></uib-datepicker>
+                                        </div>
+                                        <div class="col-md-6">
+                                            Excluded Dates:
+                                            <div style="overflow: auto;height: 100%;max-height: 210px;">
+                                                <div ng-repeat='d in Ctrl.item.config.schedule.exdates | orderBy'>
+                                                    {{d | date : 'fullDate'}}
+                                                    <button class='btn btn-xs btn-warning' style='margin:5px' ng-click='Ctrl.removeExdate(d)'>Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                </div>
+                            </div>
+                                <div ng-if="Ctrl.item.config.schedule.type == 'pickdates'">
+                                    <fieldset>
+                                        <legend>Select Dates</legend>
+                                        <div class="col-sm-6">
+                                            <uib-datepicker ng-model='Ctrl.activeDate' multi-select='Ctrl.item.config.schedule.dates' select-range='false'></uib-datepicker>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            Selected Dates
+                                            <div style="overflow: auto;height: 100%;max-height: 210px;">
+                                                <div ng-repeat='d in Ctrl.item.config.schedule.dates | orderBy'>
+                                                    {{d | date : 'fullDate'}}
+                                                    <button class='btn btn-xs btn-warning' style='margin:5px' ng-click='Ctrl.removeScheduledDate(d)'>Remove</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </uib-tab>
+                <uib-tab heading="Payment">
+                    <div class="well well-large">
+                        <fieldset>
+                            <legend>Payment</legend>
+                            <div class="well well-lg">
+                                <fieldset>
+                                    <legend>Paynow:</legend>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Enable Paynow:</label>
+                                        <input type="checkbox" ng-model="Ctrl.item.config.payment.paynow.enabled"/>
+                                    </div>
+                                    <div ng-show="Ctrl.item.config.payment.paynow.enabled" class="form-group">
+                                        <label class="col-md-4 control-label">Require Prepay:</label>
+                                        <input type="checkbox" ng-model="Ctrl.item.config.payment.paynow.required"/>
+                                    </div>
+                                    <div class='well well-large' ng-show="Ctrl.item.config.payment.paynow.enabled">
+                                        <fieldset>
+                                            <legend>Methods</legend>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Credit Card:</label>
+                                                <input type="checkbox" ng-model="Ctrl.item.config.payment.paynow.methods.paypal"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Direct Debit:</label>
+                                                <input type="checkbox" ng-model="Ctrl.item.config.payment.paynow.ezcollect"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Invoice/Voucher:</label>
+                                                <input type="checkbox" ng-model="Ctrl.item.config.payment.paynow.invoice"/>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Billing</legend>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Enable Billing:</label>
+                                        <input type="checkbox" ng-model="Ctrl.item.config.payment.recurring.enabled"/>
+                                    </div>
+                                    <div ng-show="Ctrl.item.config.payment.recurring.enabled" class="form-group">
+                                        <label class="col-md-4 control-label">Required</label>
+                                        <input type="checkbox" ng-model="Ctrl.item.config.payment.recurring.required"/>
+                                    </div>
+                                    <div ng-show="Ctrl.item.config.payment.recurring.enabled" class="well well-large">
+                                        <fieldset>
+                                            <legend>Methods</legend>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Credit Card:</label>
+                                                <input type="checkbox" ng-model="Ctrl.item.config.payment.recurring.methods.paypal"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Direct Debit:</label>
+                                                <input type="checkbox" ng-model="Ctrl.item.config.payment.recurring.methods.directdebit"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Invoice/Voucher:</label>
+                                                <input type="checkbox" ng-model="Ctrl.item.config.payment.recurring.methods.invoice"/>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <legend>Plans</legend>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Enable Plans:</label>
+                                        <input type="checkbox" ng-model="Ctrl.item.config.payment.plans.enabled"/>
+                                    </div>
+                                    <div ng-show="Ctrl.item.config.payment.plans.enabled" class="form-group">
+                                        <label class="col-md-4 control-label">Required</label>
+                                        <input type="checkbox" ng-model="Ctrl.item.config.payment.plans.required"/>
+                                    </div>
+                                    <div ng-show="Ctrl.item.config.payment.plans.enabled" class="well well-large">
+                                        <fieldset>
+                                            <legend>Plans</legend>
+                                            <h2>coming soon</h2>
+                                        </fieldset>
+                                        <fieldset>
+                                            <legend>Plans</legend>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Period:</label>
+                                                <a href="#" editable-select="Ctrl.item.config.payment.plans" e-ng-options="o.value as o.text for o in Ctrl.scheduleTypeOptions">
+                                                    {{ Ctrl.showScheduleType() || '_____' }}
+                                                </a>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </fieldset>
+                    </div>
+                </uib-tab>
+                <uib-tab heading="Pricing">
+                    <div class="well well-lg">
+                        <h3>Pricing Options</h3>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Type:</label>
+                            <a href="#" editable-select="Ctrl.item.config.pricing.type" e-ng-options="o.value as o.text for o in Ctrl.pricingTypeOptions">
+                                {{ Ctrl.showPricingType() || 'not set' }}
+                            </a>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Unit Price:</label>
+                            <a href="#" editable-text="Ctrl.item.config.pricing.unit_price">
+                                {{ Ctrl.item.config.pricing.unit_price || 'not set' }}
+                            </a>
+                        </div>
+
+                    </div>
+                </uib-tab>
+                <uib-tab heading="Discounts">
+                    <div class="well well-lg form-inline">
+                        <h3>Discount Options</h3>
+                        <label class="control-label">Enable Discounts</label>
+                        <input type="checkbox" ng-model="Ctrl.item.config.discount.enabled" class="form-control"/>
+                        <div ng-show="Ctrl.item.config.discount.enabled">
+                            <label  class="control-label">Sibling Enrollement</label>
+                            <input type="checkbox" ng-model="Ctrl.item.config.discount.siblingenrolled.enabled"/>
+                            <div class="well well-sm" ng-show="Ctrl.item.config.pricing.discount.siblingenrolled.enabled">
+                                <label>Discount Amount</label>
+                                <a href="#" editable-text="Ctrl.item.config.discount.siblingenrolled.amount">
+                                    {{ Ctrl.item.config.discount.siblingenrolled.amount || 'not set' }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+
+
+
+
+        </div>
+    </md-content>
+</div>

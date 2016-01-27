@@ -1,0 +1,30 @@
+
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>
+            Registration: {{Ctrl.item.child.name}} at {{Ctrl.item.product.name}}
+        </h2>
+        <span flex></span>
+    </div>
+</md-toolbar>
+<md-content>
+    {{Ctrl.created}}
+    {{Ctrl.createby}}
+    {{Ctrl.state}}
+    {{Ctrl.status}}
+    <div flex>
+        Order: {{Ctrl.item.order_id}}
+    </div>
+    <div flex>
+        Child: {{Ctrl.item.child.name}}
+    </div>
+    <div flex>
+        Product: {{Ctrl.item.product.title}}
+    </div>
+    <div flex>
+        Start Date: {{Ctrl.item.date_start * 1000 | date:'dd/MM/yyyy'}}
+    </div>
+    <div flex>
+        End Date: {{Ctrl.item.date_end * 1000 | date:'dd/MM/yyyy'}}
+    </div>
+</md-content>

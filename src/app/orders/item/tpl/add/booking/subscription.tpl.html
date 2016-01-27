@@ -1,0 +1,16 @@
+<md-input-container>
+    <label>Select Child</label>
+    <md-select ng-model="Ctrl.newProduct.data.child_id">
+        <md-option ng-repeat="child in Ctrl.children" value="{{child.id}}">
+            {{child.name}}
+        </md-option>
+    </md-select>
+</md-input-container>
+<md-input-container>
+    <label>Start Date</label>
+    <md-select ng-model="Ctrl.newProduct.data.date_start">
+        <md-option ng-repeat="startdate in Ctrl.newProduct.product.plugins.booking.dateStartOptions" value="{{startdate}}">
+            {{(startdate * 1000 | date: 'shortDate')}}
+        </md-option>
+    </md-select>
+</md-input-container>
