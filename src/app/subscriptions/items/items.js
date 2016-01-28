@@ -18,7 +18,7 @@ angular.module( 'sp4k.subscriptions.items', [])
 
         this.pageSize = 20;
         this.currentPage = 1;
-        this.filters = {state:1,status:'new'};
+        this.filters = {state:1};
         this.count = 0;
 
         $scope.$watch(

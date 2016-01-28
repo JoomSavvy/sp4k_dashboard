@@ -25,7 +25,7 @@ angular.module( 'sp4k.subscriptions', ['sp4k.subscriptions.items','sp4k.subscrip
 
                     var filters = {};
                     filters.state = 1;
-                    filters.status = 'new';
+                    //filters.status = 'new';
 
                     var limit = {};
                     limit.limit = 20;

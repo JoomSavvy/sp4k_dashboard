@@ -23,7 +23,7 @@ angular.module( 'sp4k.registrations', ['sp4k.registrations.items','sp4k.registra
 
                     var filters = {};
                     filters.state = 1;
-                    filters.status = 'new';
+                    //filters.status = 'new';
 
                     var limit = {};
                     limit.limit = 20;
