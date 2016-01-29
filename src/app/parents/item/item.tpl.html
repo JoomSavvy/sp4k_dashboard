@@ -1,4 +1,4 @@
-<md-toolbar  md-scroll-shrink>
+<md-toolbar>
     <div class="md-toolbar-tools">
         <md-button class="md-icon-button" aria-label="Settings">
             <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
@@ -26,7 +26,7 @@
         </div>
     </div>
 </md-toolbar>
-<div layout="row" id="parentItemContainer"  flex>
+<md-content layout-padding flex>
     <md-content class="md-whiteframe-1dp" flex>
         <md-card>
             <div flex>
@@ -36,6 +36,21 @@
                 <label class="col-md-4 control-label">Account ID</label>
                 {{ Ctrl.item.account_id || 'Not Set' }}
             </div>
+            <md-card>
+                <div class="form-group">
+                    <label class="col-md-4 control-label">Archived?</label>
+                    <md-switch class="md-primary md-block" aria-label="Switch No Ink"
+                               ng-model="Ctrl.item.state" ng-true-value='"0"'
+                               ng-false-value='"1"'>{{Ctrl.item.state || '1' | yesno:'true'}}</md-switch>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label">SMS</label>
+                    <md-switch class="md-primary md-block" aria-label="Switch No Ink"
+                               ng-model="Ctrl.item.sms" ng-true-value='"1"'
+                               ng-false-value='"0"'>{{Ctrl.item.sms | yesno}}</md-switch>
+                </div>
+            </md-card>
             <md-input-container layout="row" flex>
                 <label>Title</label>
                 <md-select ng-model="Ctrl.item.title">
@@ -112,17 +127,7 @@
         </md-card>
 
 
-            <div class="form-group">
-                <label class="col-md-4 control-label">Archived?</label>
-                <md-switch class="md-primary md-block" aria-label="Switch No Ink"
-                           ng-model="Ctrl.item.state" ng-true-value='"0"' ng-false-value='"1"'>{{Ctrl.item.state || '1' | yesno:'true'}}</md-switch>
-            </div>
 
-            <div class="form-group">
-                <label class="col-md-4 control-label">SMS</label>
-                <md-switch class="md-primary md-block" aria-label="Switch No Ink"
-                           ng-model="Ctrl.item.sms" ng-true-value='"1"' ng-false-value='"0"'>{{Ctrl.item.sms | yesno}}</md-switch>
-            </div>
             <md-card layout-margin ng-if="Ctrl.showChildren">
                 <md-card-content>
                     <md-toolbar>
@@ -188,4 +193,4 @@
             </md-card>
         </section>
     </md-content>
-</div>
+</md-content>

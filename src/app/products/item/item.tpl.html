@@ -33,7 +33,7 @@
 
         </div>
     </md-toolbar>
-    <md-content layout-padding layout="column" flex>
+    <md-content layout-padding flex>
             <md-card>
                 <div class="md-card-content">
                     <md-input-container layout="row" flex>
@@ -78,28 +78,29 @@
                             </md-option>
                         </md-select>
                     </md-input-container>
+                    <md-input-container>
+                        <label>Venue</label>
+                        <md-select ng-model="Ctrl.item.venue_id">
+                            <md-option ng-repeat="o in Ctrl.venueOptions" value="{{o.id}}">
+                                {{o.title}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
                 </div>
             </md-card>
             <md-card layout="column" flex>
                 <md-tabs md-dynamic-height>
                 <md-tab label="Booking">
                     <md-content layout-padding layout-column flex>
-                        <md-input-container>
-                            <label>Venue</label>
-                            <md-select ng-model="Ctrl.item.venue_id">
-                                <md-option ng-repeat="o in Ctrl.venueOptions" value="{{o.id}}">
-                                    {{o.title}}
-                                </md-option>
-                            </md-select>
-                        </md-input-container>
-                        <div ng-show="Ctrl.item.config.booking.enabled">
-
-                        </div>
                         <md-input-container layout="row" flex>
                             <md-checkbox class="md-primary" ng-model="Ctrl.item.config.booking.enabled">
                                 Enable Booking
                             </md-checkbox>
                         </md-input-container>
+
+                        <div ng-show="Ctrl.item.config.booking.enabled">
+
+                        </div>
                         <div ng-show="Ctrl.item.config.booking.enabled">
                             <div>
                                 <md-input-container layout="row" flex>
@@ -132,10 +133,6 @@
                                 <input ng-model="Ctrl.item.config.booking.capacity"/>
                             </md-input-container>
                         </div>
-                        <fieldset>
-                            <legend>Booking</legend>
-
-                        </fieldset>
                     </md-content>
                 </md-tab>
                 <md-tab label="Schedule">

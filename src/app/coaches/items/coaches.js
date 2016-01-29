@@ -22,7 +22,7 @@ angular.module( 'sp4k.coaches.items', [])
         this.currentPage = 1;
         this.count = 0;
 
-        this.filters = {state:1,doftw:[],role:[]};
+        this.filters = {state:1};
 
         this.doftw = [];
 

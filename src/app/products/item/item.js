@@ -77,14 +77,17 @@ angular.module( 'sp4k.products.item', [
 
         this.saveItem = function(){
             this.processDtRangeOut();
+            console.log(this.item.state);
+            this.item.state = ( (typeof this.item.state == 'undefined' ) || (this.item.state == null) ) ? 1 : this.item.state;
             var item = productsRestService.save(this.item);
-            item.$promise.then(function(){
+
+            item.$promise.then(angular.bind(this,function(){
                 if(typeof item.config == 'string' ){
                     item.config = JSON.parse(item.config)
                 }
 
                 this.item = item;
-            });
+            }));
         };
 
         $scope.$watch(
@@ -242,7 +245,11 @@ angular.module( 'sp4k.products.item', [
                 venueName = '';
             }
 
-            return venueName + " " + parentName;
+            var title = venueName + " " + parentName;
+
+            this.item.title = title;
+
+            return title;
         };
 
         this.showCategory = function(){

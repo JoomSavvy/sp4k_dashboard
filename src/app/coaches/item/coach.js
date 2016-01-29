@@ -13,6 +13,15 @@ angular.module( 'sp4k.coaches.item', [])
      */
     .controller( 'CoachesItemCtrl', function CoachesItemController( $scope,$filter,coach, coachesRestService ) {
         this.item = coach;
+        if(typeof this.item.state == 'undefined'){this.item.state = 1};
+
+        this.saveItem = function(){
+            console.log(this.item.state);
+            var item = coachesRestService.save(this.item);
+            item.$promise.then(angular.bind(this,function(){
+                this.item = item;
+            }));
+        };
 
         this.cityOptions = [
             {
