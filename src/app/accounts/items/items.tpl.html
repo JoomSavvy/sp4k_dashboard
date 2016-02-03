@@ -111,8 +111,13 @@
         <md-subheader class="md-1-line">
             <div layout="row" layout-align="space-around center" flex>
                 <div flex="5"></div>
-                <div flex="30">
-                    Parent (primary)
+                <div flex="15" ng-click="Ctrl.changeOrder('created')" layout="row" layout-align="center center">
+                    <i class="material-icons">{{Ctrl.columnSortState.created || 'sort'}}</i>
+                    <span layout-fill flex>Created</span>
+                </div>
+                <div flex="30" ng-click="Ctrl.changeOrder('l_name')" layout="row" layout-align="center center">
+                    <i class="material-icons">{{Ctrl.columnSortState.l_name || 'sort'}}</i>
+                    <span layout-fill flex>Parent (primary)</span>
                 </div>
                 <div flex="30">
                     Mobile
@@ -135,7 +140,10 @@
                         <i class="fa fa-edit"></i>
                     </a>
                 </div>
-                <div flex="30">{{Ctrl.getPrimaryParent(item).f_name + Ctrl.getPrimaryParent(item).l_name || ''}}</div>
+                <div flex="10">
+                    {{item.created * 1000 | date:'shortDate' }}
+                </div>
+                <div flex="30">{{Ctrl.getPrimaryParent(item).f_name +' '+ Ctrl.getPrimaryParent(item).l_name || ''}}</div>
                 <div flex="30">{{Ctrl.getPrimaryParent(item).phone_mobile || ''}}</div>
                 <div flex>{{Ctrl.getPrimaryParent(item).juser.email || ''}}</div>
             </md-list-item>

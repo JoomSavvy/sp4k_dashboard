@@ -9,30 +9,48 @@ angular.module( 'sp4k.children.items', [])
     /**
      * And of course we define a controller for our route.
      */
-    .controller( 'ParentsItemsCtrl', function ParentsItemsController(
-        $scope, $mdSidenav, $timeout, $log,  childrenData, childrenRestService,
+    .controller( 'ChildrenItemsCtrl', function ChildrenItemsController(
+        $scope, $mdSidenav, $timeout, $log, $filter,
+        childrenData, childrenRestService,
         AutocompleteParents,AutocompleteChildren
     ) {
-        this.items = parentsData.items;
-        this.total_items = parentsData.count;
+        this.items = childrenData.items;
+        this.total_items = childrenData.count;
 
         this.pageSize = 20;
         this.currentPage = 1;
         this.filters = {
             state: '1'
         };
+
         this.count = 0;
 
-        $scope.$watch(function(){return AutocompleteChildren.getItem()},
+        this.columnOrder = {created:'asc'};
+        this.columnSortState = {created:'arrow_drop_down'};
+        this.filters = {order:this.columnOrder};
+
+        this.getPrimaryParent = function(account){
+            var primaryParents = $filter('filter')(account.parents,{primary:1});
+            if(primaryParents){
+                $primaryParent = primaryParents[0]
+            }
+            return $primaryParent;
+        };
+
+        $scope.$watch(function(){return AutocompleteChildren.getChild()},
             angular.bind(this, function(newVal,oldVal){
-                this.filters.id = newVal.id;
+                if(newVal !== oldVal){
+                    this.filters.id = newVal.id;
+                }
             }),
             true
         );
 
         $scope.$watch(function(){return AutocompleteParents.getParent()},
             angular.bind(this, function(newVal,oldVal){
-                    this.filters.id = newVal.id;
+                if(newVal !== oldVal){
+                    this.filters.parent_id = newVal.id;
+                }
             }),
             true
         );
@@ -81,6 +99,22 @@ angular.module( 'sp4k.children.items', [])
             ),
             true//deep watch
         );
+
+        this.changeOrder = function(column){
+            if(typeof this.columnOrder[column] == 'undefined' ){
+                this.columnOrder[column] = 'asc';
+                this.columnSortState[column] = 'arrow_drop_up';
+            }else if(this.columnOrder[column]=='asc'){
+                this.columnOrder[column] ='desc';
+                this.columnSortState[column] = 'arrow_drop_down';
+            }else{
+                delete this.columnOrder[column];
+                this.columnSortState[column] = 'sort';
+            }
+            console.log(this.columnOrder);
+            this.filters.order = this.columnOrder;
+            console.log(this.filters);
+        };
 
         this.getPage = function(){
 

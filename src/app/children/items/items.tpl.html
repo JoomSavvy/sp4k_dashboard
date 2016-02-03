@@ -64,7 +64,7 @@
                     md-min-length="0"
                     placeholder="Child Name">
                 <md-item-template>
-                    <span md-highlight-text="Ctrl.searchText" md-highlight-flags="^i">{{item.f_name}} {{item.l_name}}</span>
+                    <span md-highlight-text="Ctrl.searchText" md-highlight-flags="^i">{{item.name}}</span>
                 </md-item-template>
                 <md-not-found>
                     No matching items found.
@@ -88,23 +88,35 @@
     </div>
 </md-toolbar>
 <md-content flex>
-    <md-subheader class="md-4-line" >
+    <md-subheader class="md-3-line" >
         <div layout="row" layout-align="space-around center" flex>
-            <div flex="4"></div>
-            <div flex="10">Created</div>
-            <div flex="20">Name</div>
-            <div flex="20">Parent(primary)</div>
-            <div flex>Email</div>
+            <div flex="5"></div>
+            <div flex="10" ng-click="Ctrl.changeOrder('created')" layout="row" layout-align="center center">
+                <i class="material-icons">{{Ctrl.columnSortState.created || 'sort'}}</i>
+                <span layout-fill flex>Created</span>
+            </div>
+            <div flex="20" ng-click="Ctrl.changeOrder('name')" layout="row" layout-align="center center">
+                <i class="material-icons">{{Ctrl.columnSortState.name || 'sort'}}</i>
+                <span layout-fill flex>Name</span>
+            </div>
+            <div flex="20" ng-click="Ctrl.changeOrder('l_name')" layout="row" layout-align="center center">
+                <i class="material-icons">{{Ctrl.columnSortState.l_name || 'sort'}}</i>
+                <span layout-fill flex>Parent(primary)</span>
+            </div>
+            <div flex="20" ng-click="Ctrl.changeOrder('dob')" layout="row" layout-align="center center">
+                <i class="material-icons">{{Ctrl.columnSortState.dob || 'sort'}}</i>
+                <span layout-fill flex>DOB</span>
+            </div>
         </div>
     </md-subheader>
     <md-list ng-if="Ctrl.items.length">
-        <md-list-item class="md-3-line" class="md-3-line"
+        <md-list-item class="md-1-line" class="md-3-line"
                       dir-paginate="item in Ctrl.items | itemsPerPage: Ctrl.pageSize"
                       current-page="Ctrl.currentPage"
                       pagination-id="children"
                       total-items="Ctrl.total_items">
             <div layout="row" layout-align="space-around center" flex>
-                <div flex="10">
+                <div flex="5">
                     <a ui-sref="children.item({id:item.id})">
                         <i class="fa fa-edit"></i>
                     </a>
@@ -115,10 +127,10 @@
                 <div flex="20">
                     {{item.name}}
                 </div>
-                <div flex>
-                    {{item.parent}}
+                <div flex="20">
+                    {{Ctrl.getPrimaryParent(item).f_name+' '+Ctrl.getPrimaryParent(item).l_name}}
                 </div>
-                <div flex>
+                <div flex="20">
                     {{item.dob * 1000 | date:'shortDate' }}
                 </div>
 

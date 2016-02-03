@@ -67,103 +67,7 @@
             <textarea ng-model="Ctrl.item.description" columns="1" rows="5"></textarea>
         </md-input-container>
     </md-content>
-    <!--
-    {{item.description}}
-    {{item.image}}
-    {{item.directions}}
-    {{item.bookable}}
-    {{item.capacity}}
-    {{item.website}}
-    {{item.email}}
-    {{item.address_facility_street1}}
-    {{item.address_facility_street2}}
-    {{item.address_facility_city}}
-    {{item.address_facility_state}}
-    {{item.address_facility_postalcode}}
-    {{item.address_facility_country}}
-    {{item.address_shipping_street1}}
-    {{item.address_shipping_street2}}
-    {{item.address_shipping_city}}
-    {{item.address_shipping_state}}
-    {{item.address_shipping_postalcode}}
-    {{item.address_shipping_country}}
-    {{item.address_billing_street1}}
-    {{item.address_billing_street2}}
-    {{item.address_billing_city}}
-    {{item.address_billing_state}}
-    {{item.address_billing_postalcode}}
-    {{item.address_billing_country}}
-    {{item.phone}}
 
-    <!---------------------------
-        start contact manager
-    <!--------------------------->
-
-    <md-content layout-margin>
-        <md-card>
-            <md-card-content>
-                <md-toolbar>
-                    <div class="md-toolbar-tools">
-                        <h2>Contact Form</h2>
-                        <span flex></span>
-                        <md-button aria-label="Commit Contact" ng-click="Ctrl.commitContact()">
-                            <md-icon><i class="material-icons">check</i> </md-icon>
-                        </md-button>
-                        <md-button aria-label="Cancel Contact" ng-click="Ctrl.cancelContact()">
-                            <md-icon><i class="material-icons">cancel_circle_outline</i></md-icon>
-                        </md-button>
-                    </div>
-                </md-toolbar>
-                <md-content layout="row" flex>
-                    <md-input-container flex>
-                        <label class="col-md-4 control-label">Name</label>
-                        <input type="text" required  ng-model="Ctrl.tempContact.name">
-                    </md-input-container>
-                    <md-divider></md-divider>
-                    <md-input-container flex>
-                        <label class="col-md-4 control-label">Role</label>
-                        <input type="text" required  ng-model="Ctrl.tempContact.role">
-                    </md-input-container>
-                </md-content>
-                <md-content layout="row" flex>
-                    <md-input-container flex>
-                        <label class="col-md-4 control-label">Phone</label>
-                        <input type="text" required  ng-model="Ctrl.tempContact.phone">
-                    </md-input-container>
-                    <md-input-container flex>
-                        <label class="col-md-4 control-label">Email</label>
-                        <input type="text" required  ng-model="Ctrl.tempContact.email">
-                    </md-input-container>
-                </md-content>
-            </md-card-content>
-        </md-card>
-        <md-card>
-            <div class="md-card-content">
-                <md-list ng-if="Ctrl.item.contacts.length">
-                    <md-subheader class="md-1-line" >
-                        <div layout="row" layout-align="space-around center" flex>
-                            <div flex="20">Name</div>
-                            <div flex="15">Role</div>
-                            <div flex="20">Phone</div>
-                            <div flex="20">Email</div>
-                        </div>
-                    </md-subheader>
-                    <md-list-item class="md-1-line" ng-repeat="item in Ctrl.item.contacts" >
-                        <div ng-click="Ctrl.editContact($index)" layout="row" layout-align="space-around center" flex>
-                            <div flex="20">{{item.name}}</div>
-                            <div flex="15">{{item.role}}</div>
-                            <div flex="20">{{item.phone}}</div>
-                            <div flex="20">{{item.email}}</div>
-                        </div>
-                    </md-list-item>
-                </md-list>
-            </div>
-        </md-card>
-    </md-content>
-
-    <!--------------------------------
-            end contact manager
-    ---------------------------------->
 
     <div layout="column" ng-cloak class="md-inline-form">
 
@@ -209,6 +113,130 @@
                 <textarea ng-model="Ctrl.item.directions" columns="1" rows="5"></textarea>
             </md-input-container>
         </md-content>
+
+        <!--
+        {{item.description}}
+        {{item.image}}
+        {{item.directions}}
+        {{item.bookable}}
+        {{item.capacity}}
+        {{item.website}}
+        {{item.email}}
+        {{item.address_facility_street1}}
+        {{item.address_facility_street2}}
+        {{item.address_facility_city}}
+        {{item.address_facility_state}}
+        {{item.address_facility_postalcode}}
+        {{item.address_facility_country}}
+        {{item.address_shipping_street1}}
+        {{item.address_shipping_street2}}
+        {{item.address_shipping_city}}
+        {{item.address_shipping_state}}
+        {{item.address_shipping_postalcode}}
+        {{item.address_shipping_country}}
+        {{item.address_billing_street1}}
+        {{item.address_billing_street2}}
+        {{item.address_billing_city}}
+        {{item.address_billing_state}}
+        {{item.address_billing_postalcode}}
+        {{item.address_billing_country}}
+        {{item.phone}}
+
+        <!---------------------------
+            start contact manager
+        <!--------------------------->
+
+        <md-content layout-margin>
+            <md-card>
+                <md-card-content>
+                    <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h2>Contact Form</h2>
+                            <span flex></span>
+                            <md-button aria-label="Commit Contact" ng-click="Ctrl.commitContact()">
+                                <md-icon><i class="material-icons">check</i> </md-icon>
+                            </md-button>
+                            <md-button aria-label="Cancel Contact" ng-click="Ctrl.cancelContact()">
+                                <md-icon><i class="material-icons">cancel_circle_outline</i></md-icon>
+                            </md-button>
+                        </div>
+                    </md-toolbar>
+                    <md-content layout="row" flex>
+                        <md-input-container flex>
+                            <label class="col-md-4 control-label">Name</label>
+                            <input type="text" required  ng-model="Ctrl.tempContact.name">
+                        </md-input-container>
+                        <md-divider></md-divider>
+                        <md-input-container flex>
+                            <label class="col-md-4 control-label">Role</label>
+                            <input type="text" required  ng-model="Ctrl.tempContact.role">
+                        </md-input-container>
+                    </md-content>
+                    <md-content layout="row" flex>
+                        <md-input-container flex>
+                            <label class="col-md-4 control-label">Phone</label>
+                            <input type="text" required  ng-model="Ctrl.tempContact.phone">
+                        </md-input-container>
+                        <md-input-container flex>
+                            <label class="col-md-4 control-label">Email</label>
+                            <input type="text" required  ng-model="Ctrl.tempContact.email">
+                        </md-input-container>
+                    </md-content>
+                </md-card-content>
+            </md-card>
+            <md-card>
+                <div class="md-card-content">
+                    <md-list ng-if="Ctrl.item.contacts.length">
+                        <md-subheader class="md-1-line" >
+                            <div layout="row" layout-align="space-around center" flex>
+                                <div flex="20">Name</div>
+                                <div flex="15">Role</div>
+                                <div flex="20">Phone</div>
+                                <div flex="20">Email</div>
+                            </div>
+                        </md-subheader>
+                        <md-list-item class="md-1-line" ng-repeat="item in Ctrl.item.contacts" >
+                            <div ng-click="Ctrl.editContact($index)" layout="row" layout-align="space-around center" flex>
+                                <div flex="20">{{item.name}}</div>
+                                <div flex="15">{{item.role}}</div>
+                                <div flex="20">{{item.phone}}</div>
+                                <div flex="20">{{item.email}}</div>
+                            </div>
+                        </md-list-item>
+                    </md-list>
+                </div>
+            </md-card>
+        </md-content>
+
+        <!--------------------------------
+                end contact manager
+        ---------------------------------->
+
+        <!--------------------------------
+                Start schedule manager
+        ---------------------------------->
+
+        <fieldset>
+            <legend>Exclude Dates</legend>
+            <div class="col-md-6">
+                <uib-datepicker ng-model='Ctrl.activeExDate' multi-select='Ctrl.item.exdates' select-range='false'></uib-datepicker>
+            </div>
+            <div class="col-md-6">
+                Excluded Dates:
+                <div style="overflow: auto;height: 100%;max-height: 210px;">
+                    <div ng-repeat='d in Ctrl.item.exdates | orderBy'>
+                        {{d | date : 'fullDate'}}
+                        <button class='btn btn-xs btn-warning' style='margin:5px' ng-click='Ctrl.removeExdate($index)'>Remove</button>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+
+        <!--------------------------------
+                End Schedule Manager
+        ---------------------------------->
+
     </div>
 
 

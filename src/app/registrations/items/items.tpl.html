@@ -32,7 +32,8 @@
                 <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
             </md-button>
             <h2>
-                <span>Registrations</span>
+                <span>Registrations: </span>
+                Page {{Ctrl.currentPage}}
             </h2>
             <span flex></span>
             <md-button ng-click="Ctrl.toggleLeft()" ng-hide="Ctrl.isOpenLeft()">
@@ -43,58 +44,67 @@
             </md-button>
         </div>
     </md-toolbar>
-    <md-tooldbar>
-        <div class="md-toolbar-tools">Page: {{Ctrl.currentPage}}</div>
-    </md-tooldbar>
     <md-content>
         <md-subheader class="md-1-line">
-            <div class="col-xs-12 col-sm-1 col-md-1">
-                ID
-            </div>
-            <div class="col-xs-12 col-sm-2 col-md-2">
-                Start Date
-            </div>
-            <div class="col-xs-12 col-sm-2 col-md-2">
-                End Date
-            </div>
-            <div class="col-xs-12 col-sm-3 col-md-3">
-                Child Name
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4">
-                Product Name
+            <div layout="row" flex>
+                <div flex="5"></div>
+                <div flex="10" ng-click="Ctrl.changeOrder('created')" layout="row" layout-align="center center">
+                    <i class="material-icons">{{Ctrl.columnSortState.created || 'sort'}}</i>
+                    <span layout-fill flex>Created</span>
+                </div>
+
+                <div flex="10" ng-click="Ctrl.changeOrder('date_start')" layout="row" layout-align="center center">
+                    <i class="material-icons">{{Ctrl.columnSortState.date_start || 'sort'}}</i>
+                    <span layout-fill flex>Start Date</span>
+                </div>
+                <div flex="10" ng-click="Ctrl.changeOrder('date_end')" layout="row" layout-align="center center">
+                    <i class="material-icons">{{Ctrl.columnSortState.date_end || 'sort'}}</i>
+                    <span layout-fill flex>End Date</span>
+                </div>
+                <div flex="15" ng-click="Ctrl.changeOrder('child')" layout="row" layout-align="center center">
+                    <i class="material-icons">{{Ctrl.columnSortState.child || 'sort'}}</i>
+                    <span layout-fill flex>Child Name</span>
+                </div>
+                <div flex ng-click="Ctrl.changeOrder('product')" layout="row" layout-align="center center">
+                    <i class="material-icons">{{Ctrl.columnSortState.product || 'sort'}}</i>
+                    <span layout-fill flex>Product Name</span>
+                </div>
             </div>
         </md-subheader>
 
-        <md-divider class="md-3-line"></md-divider>
+        <md-divider class="md-1-line"></md-divider>
 
         <md-list ng-if="Ctrl.items.length">
-            <md-list-item class="md-3-line"
+            <md-list-item class="md-1-line"
                           dir-paginate="item in Ctrl.items | itemsPerPage: Ctrl.pageSize"
                           current-page="Ctrl.currentPage"
                           pagination-id="registrations"
-                          total-items="Ctrl.total_items">
-                <div class="col-xs-12 col-sm-1 col-md-1">
+                          total-items="Ctrl.total_items"
+                          ng-class-odd="'md-accent'">
+                <div flex="5">
                     <a ui-sref="registrations.item({id:item.id})" >
-                        <i class="fa fa-edit"></i> {{item.id}}
+                        <i class="fa fa-edit"></i>
                     </a>
                 </div>
-                <div class="col-xs-12 col-sm-2 col-md-2">
-                    {{item.date_start * 1000 | date:'shortDate'}}
+                <div flex="10">
+                    {{item.created * 1000 | date:'dd/MM/yyyy'}}
                 </div>
-                <div class="col-xs-12 col-sm-2 col-md-2">
-                    {{item.date_end * 1000 | date:'shortDate'}}
+                <div flex="10">
+                    {{item.date_start * 1000 | date:'dd/MM/yyyy'}}
                 </div>
-                <div class="col-xs-12 col-sm-3 col-md-3">
+                <div flex="10">
+                    {{item.date_end * 1000 | date:'dd/MM/yyyy'}}
+                </div>
+                <div flex="15">
                     <a ui-sref="children.item({id:item.child_id})" >
                         <i class="fa fa-edit"></i> {{item.child_name}}
                     </a>
                 </div>
-                <div class="col-xs-12 col-sm-4 col-md-4">
+                <div flex>
                     <a ui-sref="products.item({id:item.product_id})" >
                         <i class="fa fa-edit"></i> {{item.product_name}}
                     </a>
                 </div>
-                <md-divider ng-if="!$last"></md-divider>
             </md-list-item>
         </md-list>
         <dir-pagination-controls ng-if="Ctrl.items.length"

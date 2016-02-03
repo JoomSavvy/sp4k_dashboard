@@ -2,7 +2,9 @@
  *
  */
 
-angular.module( 'sp4k.registrations', ['sp4k.registrations.items','sp4k.registrations.item'])
+angular.module( 'sp4k.registrations', [
+    'sp4k.registrations.items','sp4k.registrations.item'
+])
 
     .config(function config( $stateProvider ) {
         $stateProvider.state('registrations',{
@@ -21,21 +23,31 @@ angular.module( 'sp4k.registrations', ['sp4k.registrations.items','sp4k.registra
                 registrationsRestService: 'registrationsRestService',
                 registrationData: function (registrationsRestService, $stateParams) {
 
-                    var filters = {};
-                    filters.state = 1;
-                    //filters.status = 'new';
-
                     var limit = {};
                     limit.limit = 20;
                     limit.offset = 0;
                     var count = 1;
                     var paging = true;
 
-                    if($stateParams.filters){
-                        filters = $stateParams.filters;
-                    }
+                    var filters = $stateParams.filters || {};
 
-                    var registrationData = registrationsRestService.get( {filters:filters,limit:limit, paging:paging,count:count});
+                    filters = angular.merge(
+                        filters,
+                        {
+                            order:
+                            {
+                                'created':'asc'
+                            },
+                            state:1
+                        }
+                    );
+
+                    var registrationData = registrationsRestService.get({
+                        filters:filters,
+                        limit:limit,
+                        paging:paging,
+                        count:count
+                    });
 
                     return registrationData.$promise;
                 }

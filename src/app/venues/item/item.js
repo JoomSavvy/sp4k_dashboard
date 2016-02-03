@@ -12,18 +12,17 @@ angular.module( 'sp4k.venues.item', [
      * And of course we define a controller for our route.
      */
     .controller( 'VenuesItemCtrl', function VenuesItemController(
-        $scope, $state, $stateParams, venuesRestService
+        $scope, $state, $stateParams, venue, venuesRestService
     ) {
-        this.item = {};
+        this.item = venue;
+
         clearTempContact();
         this.editContactIndex = false;
+        this.activeExDate = null;
 
-        if(typeof $stateParams.id !== 'undefined' ){
-            this.item = venuesRestService.get({id:$stateParams.id});
-        }else{
-            this.item = venuesRestService.get();
-        }
 
+        this.item.exdates = this.item.exdates || [];
+        console.log(this.item);
         this.saveItem = function(){
             venuesRestService.save(this.item).$promise.then(
                 angular.bind(this,
@@ -74,6 +73,12 @@ angular.module( 'sp4k.venues.item', [
                 phone:'',
                 email:''
             };
+        };
+
+        this.removeExdate = function(index){
+            console.log(this.item.exdates);
+            delete this.item.exdates[index];
+            console.log(this.item.exdates);
         };
 
         this.statusOptions = [

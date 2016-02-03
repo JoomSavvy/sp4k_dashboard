@@ -39,9 +39,9 @@ angular.module( 'sp4k.accounts', [
                     var count = 1;
                     var paging = true;
 
-                    if($stateParams.filters){
-                        filters = $stateParams.filters;
-                    }
+                    filters = $stateParams.filters || {};
+
+                    filters = angular.merge(filters,{order:{'created':'asc'}});
 
                     var accounts = accountsRestService.get( { filters:filters, limit:limit, paging:paging, count:count } );
 

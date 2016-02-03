@@ -28,6 +28,10 @@ angular.module( 'sp4k.parents.items', [
         };
         this.count = 0;
 
+        this.columnOrder = {l_name:'asc'};
+        this.columnSortState = {l_name:'arrow_drop_down'};
+        this.filters = {order:this.columnOrder};
+
         //this.filters.parent = AutocompleteParents().parent;
 
         $scope.$watch(function(){return AutocompleteParents.getParent()},
@@ -81,6 +85,26 @@ angular.module( 'sp4k.parents.items', [
             ),
             true//deep watch
         );
+
+
+        this.changeOrder = function(column){
+            console.log(this.columnOrder[column]);
+            console.log(this.columnOrder);
+            console.log(this.filters);
+            if(typeof this.columnOrder[column] == 'undefined' ){
+                this.columnOrder[column] = 'asc';
+                this.columnSortState[column] = 'arrow_drop_up';
+            }else if(this.columnOrder[column]=='asc'){
+                this.columnOrder[column] ='desc';
+                this.columnSortState[column] = 'arrow_drop_down';
+            }else{
+                delete this.columnOrder[column];
+                this.columnSortState[column] = 'sort';
+            }
+            console.log(this.columnOrder);
+            this.filters.order = this.columnOrder;
+            console.log(this.filters);
+        };
 
         this.getPage = function(){
 

@@ -60,8 +60,14 @@
 <md-content flex>
     <md-subheader>
         <div layout="row" layout-align="space-around center" flex>
-            <div flex="20">Name</div>
-            <div flex="20">Town/City</div>
+            <div flex="20" ng-click="Ctrl.changeOrder('title')" layout="row" layout-align="center center">
+                <i class="material-icons">{{Ctrl.columnSortState.title || 'sort'}}</i>
+                <span layout-fill flex>Name</span>
+            </div>
+            <div flex="20" ng-click="Ctrl.changeOrder('address_facility_city')" layout="row" layout-align="center center">
+                <i class="material-icons">{{Ctrl.columnSortState.address_facility_city || 'sort'}}</i>
+                <span layout-fill flex>Town/City</span>
+            </div>
             <div flex="20">Postcode</div>
             <div flex="20">Phone</div>
             <div flex="20">Email</div>

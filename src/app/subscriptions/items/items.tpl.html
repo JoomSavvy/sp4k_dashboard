@@ -32,9 +32,10 @@
                 <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
             </md-button>
             <h2>
-                <span>Subscriptions </span>
+                <span>Subscriptions: </span>
+                Page {{Ctrl.currentPage}}
             </h2>
-            Page: {{Ctrl.currentPage}}
+
             <span flex></span>
             <md-button ng-click="Ctrl.toggleLeft()" ng-hide="Ctrl.isOpenLeft()">
                 Toggle Filters
@@ -48,9 +49,16 @@
         <md-subheader class="md-1-line">
             <div layout="row" flex>
                 <div flex="5"></div>
+                <div flex="15" ng-click="Ctrl.changeOrder('created')" layout="row" layout-align="center center">
+                    <i class="material-icons">{{Ctrl.columnSortState.created || 'sort'}}</i>
+                    <span layout-fill flex>Created</span>
+                </div>
                 <div flex="10">Order</div>
                 <div flex="10">Account</div>
-                <div flex="35">Product</div>
+                <div flex="35" ng-click="Ctrl.changeOrder('product')" layout="row" layout-align="center center">
+                    <i class="material-icons">{{Ctrl.columnSortState.product || 'sort'}}</i>
+                    <span layout-fill flex>Product</span>
+                </div>
                 <div flex="15">Start Date</div>
                 <div flex>End Date</div>
             </div>
@@ -60,12 +68,15 @@
             <md-list-item class="md-1-line"
                           dir-paginate="item in Ctrl.items | itemsPerPage: Ctrl.pageSize"
                           current-page="Ctrl.currentPage"
-                          pagination-id="registrations"
+                          pagination-id="subscriptions"
                           total-items="Ctrl.total_items">
                 <div flex="5">
                     <a ui-sref="subscriptions.item({id:item.id})" >
                         <i class="fa fa-edit"></i>
                     </a>
+                </div>
+                <div flex="15">
+                    {{item.created * 1000 | date:'dd/MM/yyyy'}}
                 </div>
                 <div flex="10">
                     <a ui-sref="orders.item({id:item.order_id})" >
@@ -92,7 +103,7 @@
                 direction-links="true"
                 boundary-links="true"
                 auto-hide="true"
-                pagination-id="registrations"
+                pagination-id="subscriptions"
                 ></dir-pagination-controls>
         <h1 ng-if="!Ctrl.items.length">No Subscriptions To Display</h1>
     </md-content>

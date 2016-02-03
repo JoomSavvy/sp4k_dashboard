@@ -8,6 +8,14 @@ angular.module( 'sp4k.venues.items', [])
         $scope, venues, venuesRestService, $mdSidenav
     ) {
         this.items = venues;
+        this.pageSize = 25;
+        this.currentPage = 1;
+        this.count = 0;
+
+        this.columnOrder = {title:'asc'};
+        this.columnSortState = {title:'arrow_drop_down'};
+        this.filters = {order:this.columnOrder};
+        console.log(this.filters);
 
         $scope.$watch(
             angular.bind(this,
@@ -17,6 +25,10 @@ angular.module( 'sp4k.venues.items', [])
             ),
             angular.bind(this ,
                 function(newVal,oldVal) {
+                    console.log(newVal);
+                    console.log(oldVal);
+                    console.log(newVal !== oldVal);
+                    console.log(newVal != oldVal);
                     if(newVal !== oldVal){
 
                         this.count = 1;//changing filters will change the number of results so get the count so that we can adjust the pagination
@@ -28,16 +40,34 @@ angular.module( 'sp4k.venues.items', [])
                             //if we aren't on page 1, just change it and let the watcher fire the getPage() function.
                             this.currentPage = 1;
                         }
-
                     }
-
                 }
             ),
             true//deep watch
         );
 
-        this.getPage = function(){
+        this.changeOrder = function(column){
+            console.log(this.columnOrder[column]);
+            console.log(this.columnOrder);
+            console.log(this.filters);
+            if(typeof this.columnOrder[column] == 'undefined' ){
+                this.columnOrder[column] = 'asc';
+                this.columnSortState[column] = 'arrow_drop_up';
+            }else if(this.columnOrder[column]=='asc'){
+                this.columnOrder[column] ='desc';
+                this.columnSortState[column] = 'arrow_drop_down';
+            }else{
+                delete this.columnOrder[column];
+                this.columnSortState[column] = 'sort';
+            }
+            console.log(this.columnOrder);
+            this.filters.order = this.columnOrder;
+            console.log(this.filters);
+        };
 
+
+        this.getPage = function(){
+            console.log('get page');
             var limit = {};
 
             limit.limit = this.pageSize;
@@ -48,6 +78,7 @@ angular.module( 'sp4k.venues.items', [])
             }else{
                 var result = venuesRestService.query( { paging:true, filters:this.filters, limit:limit, count:this.count}) ;
             }
+
 
             result.$promise.then(
                 angular.bind(this,

@@ -45,27 +45,30 @@
     </div>
 </md-toolbar>
 <md-content>
-    <md-subheader class="md-4-line" >
+    <md-subheader class="md-1-line" >
         <div layout="row" layout-align="space-around center" flex>
-            <div flex="10">ID      </div>
-            <div flex="10">Created </div>
+            <div flex="5"></div>
+            <div flex="10" ng-click="Ctrl.changeOrder('created')" layout="row" layout-align="center center">
+                <i class="material-icons">{{Ctrl.columnSortState.created || 'sort'}}</i>
+                <span layout-fill flex>Created</span>
+            </div>
             <div flex="20">Status    </div>
             <div flex>Total        </div>
         </div>
     </md-subheader>
     <md-list ng-if="Ctrl.items.length">
-        <md-list-item class="md-3-line"
+        <md-list-item class="md-1-line"
                       dir-paginate="item in Ctrl.items | itemsPerPage: Ctrl.pageSize"
                       current-page="Ctrl.currentPage"
                       pagination-id="invoices"
                       total-items="Ctrl.total_items">
-            <div flex="10">
+            <div flex="5">
                 <a ui-sref="invoices.item({id:item.id})" >
-                    <i class="fa fa-edit"></i> {{item.id}}
+                    <i class="fa fa-edit"></i>
                 </a>
             </div>
             <div flex="10">
-                {{item.created * 1000 | date:'shortDate'}}
+                {{item.created * 1000 | date:'dd/MM/yyyy'}}
             </div>
             <div flex="20">
                 {{item.status}}

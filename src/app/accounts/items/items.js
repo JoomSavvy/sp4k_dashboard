@@ -20,6 +20,9 @@ angular.module( 'sp4k.accounts.items', [])
         this.filters = { state:1 };
         this.count = 0;
 
+        this.columnOrder = {created:'asc'};
+        this.columnSortState = {created:'arrow_drop_down'};
+        this.filters = {order:this.columnOrder};
 
         $scope.$watch(function(){return AutocompleteMobilenumber.getParent()},
             angular.bind(this, function(newVal,oldVal){
@@ -104,6 +107,25 @@ angular.module( 'sp4k.accounts.items', [])
             true//deep watch
         );
 
+        this.changeOrder = function(column){
+            console.log(this.columnOrder[column]);
+            console.log(this.columnOrder);
+            console.log(this.filters);
+            if(typeof this.columnOrder[column] == 'undefined' ){
+                this.columnOrder[column] = 'asc';
+                this.columnSortState[column] = 'arrow_drop_up';
+            }else if(this.columnOrder[column]=='asc'){
+                this.columnOrder[column] ='desc';
+                this.columnSortState[column] = 'arrow_drop_down';
+            }else{
+                delete this.columnOrder[column];
+                this.columnSortState[column] = 'sort';
+            }
+            console.log(this.columnOrder);
+            this.filters.order = this.columnOrder;
+            console.log(this.filters);
+        };
+
         this.getPage = function(){
 
             var limit = {};
@@ -135,8 +157,12 @@ angular.module( 'sp4k.accounts.items', [])
         };
 
 
-        this.getPrimaryParent = function(account){
-            return $filter('filter')(account.parents,{primary:1})[0];
+        this.getPrimaryParent = function(child){
+            var primaryParents = $filter('filter')(child.parents,{primary:1});
+            if(primaryParents){
+                $primaryParent = primaryParents[0]
+            }
+            return $primaryParent;
         };
 
         /*

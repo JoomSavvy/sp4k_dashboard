@@ -16,6 +16,7 @@ angular.module( 'sp4k.orders.items', [])
         this.newDate = new Date();
         this.pageSize = 20;
         this.currentPage = 1;
+
         this.filters = {
             state:'1',
             orderDate: {
@@ -23,6 +24,12 @@ angular.module( 'sp4k.orders.items', [])
                 max: false//angular.noop
             }
         };
+
+        this.columnOrder = {created:'asc'};
+        this.columnSortState = {created:'arrow_drop_down'};
+        this.filters = angular.merge(this.filters,{order:this.columnOrder});
+
+
 
         this.count = 0;
 
@@ -104,6 +111,20 @@ angular.module( 'sp4k.orders.items', [])
             }),
             true
         );
+
+        this.changeOrder = function(column){
+            if(typeof this.columnOrder[column] == 'undefined' ){
+                this.columnOrder[column] = 'asc';
+                this.columnSortState[column] = 'arrow_drop_up';
+            }else if(this.columnOrder[column]=='asc'){
+                this.columnOrder[column] ='desc';
+                this.columnSortState[column] = 'arrow_drop_down';
+            }else{
+                delete this.columnOrder[column];
+                this.columnSortState[column] = 'sort';
+            }
+            this.filters.order = this.columnOrder;
+        };
 
         this.getPage = function(){
 

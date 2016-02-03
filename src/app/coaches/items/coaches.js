@@ -26,6 +26,10 @@ angular.module( 'sp4k.coaches.items', [])
 
         this.doftw = [];
 
+        this.columnOrder = {name:'asc'};
+        this.columnSortState = {name:'arrow_drop_down'};
+        this.filters = {order:this.columnOrder};
+
         this.evalFiltersDoftw = function(){
           this.filters.doftw = this.doftw;
         };
@@ -73,6 +77,25 @@ angular.module( 'sp4k.coaches.items', [])
             ),
             true//deep watch
         );
+
+        this.changeOrder = function(column){
+            console.log(this.columnOrder[column]);
+            console.log(this.columnOrder);
+            console.log(this.filters);
+            if(typeof this.columnOrder[column] == 'undefined' ){
+                this.columnOrder[column] = 'asc';
+                this.columnSortState[column] = 'arrow_drop_up';
+            }else if(this.columnOrder[column]=='asc'){
+                this.columnOrder[column] ='desc';
+                this.columnSortState[column] = 'arrow_drop_down';
+            }else{
+                delete this.columnOrder[column];
+                this.columnSortState[column] = 'sort';
+            }
+            console.log(this.columnOrder);
+            this.filters.order = this.columnOrder;
+            console.log(this.filters);
+        };
 
         this.getPage = function(){
             var limit = {};

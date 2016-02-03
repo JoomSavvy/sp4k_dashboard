@@ -2,21 +2,10 @@
  *
  */
 
-angular.module( 'sp4k.payments.item', [
-  'ui.router'
-])
+angular.module( 'sp4k.payments.item', [])
     
     .config(function config( $stateProvider ) {
-      $stateProvider.state( 'paymnts.item', {
-        url: '/item/{id}',
-        views: {
-          "main@": {
-            controller: 'PaymentsItemCtrl',
-            templateUrl: 'payments/item/item.tpl.html'
-          }
-        },
-        data:{ pageTitle: 'Payment Detail' }
-      });
+
     })
     
     /**

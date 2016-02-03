@@ -95,11 +95,13 @@
     <md-subheader class="md-3-line">
         <div layout="row">
             <div flex="5"></div>
-            <div flex="15">
-                Name
+            <div flex="15" ng-click="Ctrl.changeOrder('name')" layout="row" layout-align="center center">
+                <i class="material-icons">{{Ctrl.columnSortState.name || 'sort'}}</i>
+                <span layout-fill flex>Name</span>
             </div>
-            <div flex="20">
-                Town/City
+            <div flex="20" ng-click="Ctrl.changeOrder('city')" layout="row" layout-align="center center">
+                <i class="material-icons">{{Ctrl.columnSortState.city || 'sort'}}</i>
+                <span layout-fill flex>Town/City</span>
             </div>
             <div flex="15">
                 Phone

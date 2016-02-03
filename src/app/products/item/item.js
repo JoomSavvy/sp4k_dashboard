@@ -2,9 +2,7 @@
  *
  */
 
-angular.module( 'sp4k.products.item', [
-    'ui.router'
-])
+angular.module( 'sp4k.products.item', [])
     .config(function config( $stateProvider ) {
     })
 
@@ -27,6 +25,10 @@ angular.module( 'sp4k.products.item', [
         this.item = resources[0] || {};
         if(this.item.config == null){
             this.item.config = config;
+        }
+        if((typeof this.item.config.schedule.exdates == 'undefined') || (typeof this.item.config.schedule.exdates == null))
+        {
+            this.item.config.schedule.exdates = [];
         }
         console.log(this.item);
 
@@ -76,6 +78,16 @@ angular.module( 'sp4k.products.item', [
         };
 
         this.saveItem = function(){
+            //rrule
+            //get this.item.config.schedule.exdates
+            // get this.item.config.schedule.rrule
+            var rruleSet = new RRuleSet();
+            var rrule = new RRuleSet(RRule.parseString(this.item.config.schedule.rrule));
+
+            rrule.exdate();
+
+
+
             this.processDtRangeOut();
             console.log(this.item.state);
             this.item.state = ( (typeof this.item.state == 'undefined' ) || (this.item.state == null) ) ? 1 : this.item.state;
@@ -103,6 +115,50 @@ angular.module( 'sp4k.products.item', [
             )
         );
 
+        $scope.$watch(
+            angular.bind(this,
+                function () {
+                    return this.item.config.schedule.exdates;
+                }
+            ),
+            angular.bind(this ,
+                function(newVal,oldVal) {
+                }
+            )
+        ,true);
+
+        this.removeExdate = function(dateIndex){
+
+            console.log(this.item.config.schedule.exdates);
+            console.log(dateIndex);
+            this.item.config.schedule.exdates.splice(dateIndex,1);
+            console.log(this.item.config.schedule.exdates);
+
+
+        };
+
+        this.updateExdates = function(oldVenueId,newVenueId){
+            var oldVenue = $filter('filter')(this.venueOptions,{id: oldVenueId})[0];
+            var newVenue = $filter('filter')(this.venueOptions,{id: newVenueId})[0];
+
+            var nonVenueExdates = _.difference(this.item.config.schedule.exdates,oldVenue.exdates);
+
+            var newExdates = [];
+
+            if(newVenue.exdates !== null){
+                newExdates = newVenue.exdates;
+            }
+
+            var exdates = _.union(nonVenueExdates,newExdates);
+
+            console.log(exdates);
+
+
+            if(exdates.length == 1){this.activeExDate = exdates[0];}
+            this.item.config.schedule.exdates.splice(0,this.item.config.schedule.exdates.length);
+            angular.extend(this.item.config.schedule.exdates,exdates);
+            console.log(this.item.config.schedule.exdates);
+        };
 
 
         this.pricingTypeOptions = [

@@ -4,8 +4,8 @@
  * build process will exclude all `.spec.js` files from the build
  * automatically.
  */
-describe( 'payment item section', function() {
-  beforeEach( module( 'sp4k.payments.item' ) );
+describe( 'products section', function() {
+  beforeEach( module( 'sp4k.products' ) );
 
   it( 'should have a dummy test', inject( function() {
     expect( true ).toBeTruthy();

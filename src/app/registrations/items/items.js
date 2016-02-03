@@ -21,6 +21,10 @@ angular.module( 'sp4k.registrations.items', [])
         this.filters = {state:1};
         this.count = 0;
 
+        this.columnOrder = {created:'asc'};
+        this.columnSortState = {created:'arrow_drop_down'};
+        this.filters = angular.merge(this.filters || {},{order:this.columnOrder});
+
         $scope.$watch(
             angular.bind(this,
                 function (currentPage) {
@@ -63,6 +67,20 @@ angular.module( 'sp4k.registrations.items', [])
             ),
             true//deep watch
         );
+
+        this.changeOrder = function(column){
+            if(typeof this.columnOrder[column] == 'undefined' ){
+                this.columnOrder[column] = 'asc';
+                this.columnSortState[column] = 'arrow_drop_up';
+            }else if(this.columnOrder[column]=='asc'){
+                this.columnOrder[column] ='desc';
+                this.columnSortState[column] = 'arrow_drop_down';
+            }else{
+                delete this.columnOrder[column];
+                this.columnSortState[column] = 'sort';
+            }
+            this.filters.order = this.columnOrder;
+        };
 
         this.getPage = function(){
 

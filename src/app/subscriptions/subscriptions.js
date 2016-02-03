@@ -33,11 +33,10 @@ angular.module( 'sp4k.subscriptions', ['sp4k.subscriptions.items','sp4k.subscrip
                     var count = 1;
                     var paging = true;
 
-
-
-                    if($stateParams.filters){
-                        filters = $stateParams.filters;
-                    }
+                    filters = angular.merge(
+                        $stateParams.filters || {},
+                        {order:{'created':'asc'}}
+                    );
 
                     var subscriptionData = subscriptionsRestService.get( {filters:filters,limit:limit, paging:paging,count:count});
 

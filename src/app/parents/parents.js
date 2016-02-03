@@ -38,9 +38,9 @@ angular.module( 'sp4k.parents', [
                     var count = 1;
                     var paging = true;
 
-                    if($stateParams.filters){
-                        filters = $stateParams.filters;
-                    }
+                    filters = $stateParams.filters || {};
+
+                    filters = angular.merge(filters,{order:{'l_name':'asc'}});
 
                     var parents = parentsRestService.get( { filters:filters, limit:limit, paging:paging, count:count } );
                     return parents.$promise;
@@ -78,13 +78,12 @@ angular.module( 'sp4k.parents', [
                 childrenRestService:'childrenRestService',
                 children: function (childrenRestService, parent){
                     if(parent.id){
-                        var children = {};
 
                         var filters = {
                             account_id: parent.account_id
                         };
 
-                        children = childrenRestService.query({filters:filters});
+                        var children = childrenRestService.query({filters:filters});
 
                         return children.$promise;
                     }else{

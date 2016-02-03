@@ -40,6 +40,9 @@ angular.module( 'sp4k.coaches', [
                       filters = $stateParams.filters;
                   }
 
+                  filters = angular.merge(filters,{order:{'name':'asc'}});
+                  console.log(filters);
+
                   var coaches = coachesRestService.get({filters:filters,limit:limit, paging:paging,count:count});
 
                   return coaches.$promise;

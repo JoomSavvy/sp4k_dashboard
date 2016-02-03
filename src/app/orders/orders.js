@@ -26,20 +26,31 @@ angular.module( 'sp4k.orders', [
                 ordersRestService: 'ordersRestService',
                 ordersData: function(ordersRestService, $stateParams){
 
-                    var filters = {};
-                    filters.state = 1;
-
                     var limit = {};
                     limit.limit = 20;
                     limit.offset = 0;
                     var count = 1;
                     var paging = true;
 
-                    if($stateParams.filters){
-                        filters = $stateParams.filters;
-                    }
+                    var filters = $stateParams.filters || {};
 
-                    var orders = ordersRestService.get( { filters:filters, limit:limit, paging:paging, count:count } );
+                    filters = angular.merge(
+                        filters,
+                        {
+                            order:
+                            {
+                                'created':'asc'
+                            },
+                            state:1
+                        }
+                    );
+
+                    var orders = ordersRestService.get({
+                        filters:filters,
+                        limit:limit,
+                        paging:paging,
+                        count:count
+                    });
 
                     return orders.$promise;
                 }

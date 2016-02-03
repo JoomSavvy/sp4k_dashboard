@@ -9,7 +9,10 @@ angular.module( 'sp4k.invoices.items', [])
 /**
  * And of course we define a controller for our route.
  */
-    .controller( 'InvoicesItemsCtrl', function InvoicesItemsController( $scope, $stateParams, $filter, $mdSidenav, invoicesRestService, invoiceData ) {
+    .controller( 'InvoicesItemsCtrl', function InvoicesItemsController(
+        $scope, $stateParams, $filter, $mdSidenav, $timeout,
+        invoicesRestService, invoiceData
+    ) {
         this.items = invoiceData.items;
         this.total_items = invoiceData.count;
 
@@ -17,6 +20,10 @@ angular.module( 'sp4k.invoices.items', [])
         this.currentPage = 1;
         this.filters = { state: '1' };
         this.count = 0;
+
+        this.columnOrder = {created:'asc'};
+        this.columnSortState = {created:'arrow_drop_down'};
+        this.filters = angular.merge(this.filters || {},{order:this.columnOrder});
 
         $scope.$watch(
             angular.bind(this,
@@ -60,6 +67,20 @@ angular.module( 'sp4k.invoices.items', [])
             ),
             true//deep watch
         );
+
+        this.changeOrder = function(column){
+            if(typeof this.columnOrder[column] == 'undefined' ){
+                this.columnOrder[column] = 'asc';
+                this.columnSortState[column] = 'arrow_drop_up';
+            }else if(this.columnOrder[column]=='asc'){
+                this.columnOrder[column] ='desc';
+                this.columnSortState[column] = 'arrow_drop_down';
+            }else{
+                delete this.columnOrder[column];
+                this.columnSortState[column] = 'sort';
+            }
+            this.filters.order = this.columnOrder;
+        };
 
         this.getPage = function(){
 

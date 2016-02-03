@@ -1,20 +1,17 @@
 /**
- * Created by Ironman on 11/21/2015.
+ *
  */
 
-angular.module( 'sp4k.transactions.items', [])
+angular.module( 'sp4k.payments.items', [])
 
+    .config(function config( $stateProvider ) {})
 
-
-/**
- * And of course we define a controller for our route.
- */
-    .controller( 'TransactionsItemsCtrl', function TransactionsItemsController(
+    .controller( 'PaymentsCtrl', function PaymentsController(
         $scope, $stateParams, $filter, $mdSidenav, $timeout,
-        transactionsRestService, transactionsData
+        paymentsData, paymentsRestService
     ) {
-        this.items = transactionsData.items;
-        this.total_items = transactionsData.count;
+        this.items = paymentsData.items;
+        this.total_items = paymentsData.count;
 
         this.pageSize = 20;
         this.currentPage = 1;
@@ -60,9 +57,7 @@ angular.module( 'sp4k.transactions.items', [])
                             //if we aren't on page 1, just change it and let the watcher fire the getPage() function.
                             this.currentPage = 1;
                         }
-
                     }
-
                 }
             ),
             true//deep watch
@@ -90,9 +85,25 @@ angular.module( 'sp4k.transactions.items', [])
             limit.offset = (this.currentPage-1) * this.pageSize;
 
             if(this.count){
-                var result = transactionsRestService.get( { paging:true, filters:this.filters, limit:limit, count:this.count} );
+
+                var result = paymentsRestService.get({
+                    paging:true,
+                    filters:this.filters,
+                    limit:limit,
+                    count:this.count
+                })
+                ;
+
             }else{
-                var result = transactionsRestService.query( { paging:true, filters:this.filters, limit:limit, count:this.count}) ;
+
+                var result = paymentsRestService.query({
+                    paging:true,
+                    filters:this.filters,
+                    limit:limit,
+                    count:this.count
+                })
+                ;
+
             }
 
             result.$promise.then(
@@ -112,60 +123,7 @@ angular.module( 'sp4k.transactions.items', [])
             );
         };
 
-
-        /*
-         *  Toggle Left Slidout Filterbar.
-         */
-        this.toggleLeft = buildDelayedToggler('left');
-        this.isOpenLeft = function(){
-            return $mdSidenav('left').isOpen();
-        };
-
-        function debounce(func, wait, context) {
-            var timer;
-            return function debounced() {
-                var context = $scope,
-                    args = Array.prototype.slice.call(arguments);
-                $timeout.cancel(timer);
-                timer = $timeout(function() {
-                    timer = undefined;
-                    func.apply(context, args);
-                }, wait || 10);
-            };
-        }
-
-        /**
-         * Build handler to open/close a SideNav; when animation finishes
-         * report completion in console
-         */
-        function buildDelayedToggler(navID) {
-            return debounce(function() {
-                $mdSidenav(navID)
-                    .toggle()
-                    .then(function () {
-                        $log.debug("toggle " + navID + " is done");
-                    });
-            }, 200);
-        }
-        function buildToggler(navID) {
-            return function() {
-                $mdSidenav(navID)
-                    .toggle()
-                    .then(function () {
-                        $log.debug("toggle " + navID + " is done");
-                    });
-            }
-        }
-
     })
-    .controller('LeftCtrl', function ($scope, $timeout, $mdSidenav, $log) {
-        $scope.close = function () {
-            $mdSidenav('left').close()
-                .then(function () {
-                    $log.debug("close LEFT is done");
-                });
-        };
-    })
-;
 
+    ;
 

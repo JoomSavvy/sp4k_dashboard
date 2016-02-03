@@ -32,6 +32,8 @@ angular.module( 'sp4k.venues', [
 
                     if($stateParams.filters){
                         filters = $stateParams.filters;
+                    }else{
+                        filters = {filters:{order:{'title':'asc'}}}
                     }
 
                     var venues = venuesRestService.query(filters);
@@ -48,7 +50,19 @@ angular.module( 'sp4k.venues', [
                     templateUrl: 'venues/item/item.tpl.html'
                 }
             },
-            data:{ pageTitle: 'Venue Item' }
+            data:{ pageTitle: 'Venue Item' },
+            resolve: {
+                venuesRestService: 'venuesRestService',
+                venue: function(venuesRestService,$stateParams) {
+                    if(typeof $stateParams.id !== 'undefined' ){
+                        var item = venuesRestService.get({id:$stateParams.id});
+                    }else{
+                        var item = venuesRestService.get();
+                    }
+
+                    return item.$promise;
+                }
+            }
         });
 
     });

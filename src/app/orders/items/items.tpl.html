@@ -86,11 +86,13 @@
         <md-subheader class="md-1-line">
             <div layout="row" flex>
                 <div flex="5"></div>
-                <div flex="20">
-                    Created
+                <div flex="20" ng-click="Ctrl.changeOrder('created')" layout="row" layout-align="center center">
+                    <i class="material-icons">{{Ctrl.columnSortState.created || 'sort'}}</i>
+                    <span layout-fill flex>Created</span>
                 </div>
-                <div flex="20">
-                    Parent
+                <div flex="30" ng-click="Ctrl.changeOrder('l_name')" layout="row" layout-align="center center">
+                    <i class="material-icons">{{Ctrl.columnSortState.l_name || 'sort'}}</i>
+                    <span layout-fill flex>Parent (primary)</span>
                 </div>
                 <div flex>
                     Total

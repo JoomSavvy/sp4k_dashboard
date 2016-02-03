@@ -1,10 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" >
+    <md-toolbar layout="row">
+        <div class="md-toolbar-tools" ng-controller="LeftCtrl" >
+            <h1>Trans</h1>
+            <span flex></span>
+            <md-button ng-click="close()" class="md-primary" md-sidenav-focus>Close</md-button>
+        </div>
 
-</body>
-</html>
+    </md-toolbar>
+    <md-content>
+        <md-input-container flex>
+            <label>State</label>
+            <md-select aria-label placeholder="state" ng-model="Ctrl.filters.state">
+                <md-option ng-repeat="state in [{text:'current',value:1},{text:'archive',value:0}]" value="{{state.value}}">
+                    {{state.text}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+    </md-content>
+</md-sidenav>
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings">
+            <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+        </md-button>
+        <h2>
+            <span>Invoices </span>
+        </h2>
+
+        <span flex></span>
+        <md-button ng-click="Ctrl.toggleLeft()" ng-hide="Ctrl.isOpenLeft()">
+            Toggle Filters
+        </md-button>
+        <md-button aria-label="Create Invoice" ui-sref="invoices.item">
+            <md-icon><i class="material-icons">add_circle_outline</i></md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<md-content>
+    <md-subheader class="md-1-line" >
+        <div layout="row" layout-align="space-around center" flex>
+            <div flex="5"></div>
+            <div flex="10" ng-click="Ctrl.changeOrder('created')" layout="row" layout-align="center center">
+                <i class="material-icons">{{Ctrl.columnSortState.created || 'sort'}}</i>
+                <span layout-fill flex>Created</span>
+            </div>
+            <div flex="20" ng-click="Ctrl.changeOrder('method')" layout="row" layout-align="center center">
+                <i class="material-icons">{{Ctrl.columnSortState.method || 'sort'}}</i>
+                <span layout-fill flex>Method</span>
+            </div>
+            <div flex>Total        </div>
+        </div>
+    </md-subheader>
+    <md-list ng-if="Ctrl.items.length">
+        <md-list-item class="md-1-line"
+                      dir-paginate="item in Ctrl.items | itemsPerPage: Ctrl.pageSize"
+                      current-page="Ctrl.currentPage"
+                      pagination-id="transactions"
+                      total-items="Ctrl.total_items">
+            <div flex="5">
+                <a ui-sref="transactions.item({id:item.id})" >
+                    <i class="fa fa-edit"></i>
+                </a>
+            </div>
+            <div flex="10">
+                {{item.created * 1000 | date:'dd/MM/yyyy'}}
+            </div>
+            <div flex="20">
+                {{item.method}}
+            </div>
+            <div flex>
+                {{item.amount}}
+            </div>
+        </md-list-item>
+    </md-list>
+    <dir-pagination-controls ng-if="Ctrl.items.length"
+                             direction-links="true"
+                             boundary-links="true"
+                             auto-hide="true"
+                             pagination-id="transactions"
+    ></dir-pagination-controls>Page: {{Ctrl.currentPage}}
+    <h1 ng-if="!Ctrl.items.length">No Transactions To Display</h1>
+</md-content>
+
+

@@ -72,8 +72,14 @@
     <md-subheader class="md-4-line" >
         <div layout="row" layout-align="space-around center" flex>
             <div flex="4"></div>
-            <div flex="10">Created      </div>
-            <div flex="20">Name         </div>
+            <div flex="10" ng-click="Ctrl.changeOrder('created')" layout="row" layout-align="center center">
+                <i class="material-icons">{{Ctrl.columnSortState.created || 'sort'}}</i>
+                <span layout-fill flex>Created</span>
+            </div>
+            <div flex="20" ng-click="Ctrl.changeOrder('l_name')" layout="row" layout-align="center center">
+                <i class="material-icons">{{Ctrl.columnSortState.l_name || 'sort'}}</i>
+                <span layout-fill flex>Name</span>
+            </div>
             <div flex="20">Mobile #     </div>
             <div flex>Email             </div>
         </div>
