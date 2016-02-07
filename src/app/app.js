@@ -43,7 +43,7 @@ angular.module( 'sp4k', [
 
     .config( function myAppConfig ( $stateProvider, $urlRouterProvider, $mdThemingProvider ) {
             $mdThemingProvider.theme('default')
-                .primaryPalette('blue-grey');
+                .primaryPalette('light-blue');
 
             $urlRouterProvider.otherwise( '/home' );
     })

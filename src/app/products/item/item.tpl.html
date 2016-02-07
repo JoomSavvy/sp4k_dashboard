@@ -161,14 +161,14 @@
                                                 <div ng-if="Ctrl.item.config.schedule.type == 'recurring'">
                                                     <fieldset>
                                                         <legend>Recurrence</legend>
-                                                        <rrule-recurring-select  rule="Ctrl.item.config.schedule.rrule"></rrule-recurring-select>
+                                                        <rrule-recurring-select  rule="Ctrl.getRRuleString()"></rrule-recurring-select>
                                                     </fieldset>
                                                 </div>
                                             </fieldset>
                                             <fieldset>
                                                 <legend>Exclude Dates</legend>
                                                 <div class="col-md-6">
-                                                    <uib-datepicker ng-model='Ctrl.activeExDate' multi-select='Ctrl.item.config.schedule.exdates' select-range='false'></uib-datepicker>
+                                                    <uib-datepicker ng-model='Ctrl.activeExDate' ng-model-options="{'timezone':'UTC'}" multi-select='Ctrl.item.config.schedule.exdates' select-range='false'></uib-datepicker>
                                                 </div>
                                                 <div class="col-md-6">
                                                     Excluded Dates:

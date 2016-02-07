@@ -18,7 +18,6 @@ angular.module( 'sp4k.products.item', [])
             discounts:{enabled:false},
             payment:{enabled:false},
             schedule:{enabled:false, rrule:{}, exdates:[], dates:[]},
-
         };
 
         //this.item = angular.extend({},baseitem,resources[0],true);
@@ -29,8 +28,18 @@ angular.module( 'sp4k.products.item', [])
         if((typeof this.item.config.schedule.exdates == 'undefined') || (typeof this.item.config.schedule.exdates == null))
         {
             this.item.config.schedule.exdates = [];
+        }else{
+
+            for(var i= 0,len=this.item.config.schedule.exdates.length;i<len;i++){
+                var newDate = (this.item.config.schedule.exdates[i] / .001);
+                this.item.config.schedule.exdates[i] = newDate;
+            }
         }
         console.log(this.item);
+
+        //if( this.item.config.schedule.rrule.indexOf('EXDATE')){
+        //    this.item.config.schedule.rrule = this.item.config.schedule.rrule.replace(/EXDATE=.*[Z; || Z"]/,'').replace(/;$/,'');
+        //}
 
         //this.item.config.schedule.rrule = this.item.config.schedule.rrule || {};
         //this.item.config.schedule.exdates = this.item.config.schedule.exdates || [];
@@ -80,26 +89,126 @@ angular.module( 'sp4k.products.item', [])
         this.saveItem = function(){
             //rrule
             //get this.item.config.schedule.exdates
-            // get this.item.config.schedule.rrule
-            var rruleSet = new RRuleSet();
-            var rrule = new RRuleSet(RRule.parseString(this.item.config.schedule.rrule));
+            // get this.item.config.schedule.rrule rruleSet.exdates();
 
-            rrule.exdate();
+            //var rrule = new RRuleSet(RRule.fromString(this.item.config.schedule.rrule));
+
+            //var rrule = new RRule(RRule.parseString(this.item.config.schedule.rrule))
+            //var rruleSet = new RRuleSet(rrule);
+///
+            ///var rrule = new RRule(RRule.parseString(this.item.config.schedule.rrule))
+            ///var rruleSet = new RRuleSet();
+            ///rruleSet.rrule(rrule);
+///
+            ///rruleSet.exdates(this.item.config.schedule.exdates);
+///
+            ///this.item.config.schedule.rrule = rruleSet.toString();
 
 
+
+            //var rruleSet = new RRuleSet(true);
+//
+            ////rruleSet.rrule(rrulestr(this.item.config.schedule.rrule));
+//
+            //var ruleString = this.item.config.schedule.rrule.replace('RRULE:','').replace('["','').replace('"]','');
+//
+            //this.getRRuleString = function(){
+            //    return this.item.config.schedule.rrule.replace('RRULE:','').replace('["','').replace('"]','');
+            //};
+//
+            //var rruleParsed =  RRule.parseString(ruleString);
+//
+            //if(typeof rruleParsed.wkst == 'undefined'){rruleParsed.wkst = RRule.MO;}
+            //var rrule = new RRule( rruleParsed);
+//
+            //rruleSet.rrule(rrule);
+//
+            //if( this.item.config.schedule.rrule.indexOf('EXDATE')){
+            //    this.item.config.schedule.rrule =
+            //        this.item.config.schedule.rrule.replace(/EXDATE=.*[Z; || Z"]/,'').replace(/;$/,'');
+            //}
+
+            //var createDateAsUTC = function (date) {
+            //    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
+            //};
+//
+            //var convertDateToUTC = function (date) {
+            //    return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+            //};
+
+            var rruleSet = new RRuleSet(true);
+
+            rruleSet.rrule(new RRule(
+                RRule.parseString(
+                    this.item.config.schedule.rrule
+                )
+            ));
+
+            //for(var i= 0,len = this.item.config.schedule.exdates.length;i < len; i++){
+//
+            //    var checkDate = this.item.config.schedule.exdates[i];
+            //    var date = createDateAsUTC(new Date(checkDate));
+            //    //todo, date formatting for rrule api requirement
+            //    rruleSet.exdate(date);
+            //}
+
+            //for(var i= 0,len = this.item.config.schedule.exdates.length;i < len; i++){
+
+                //var checkDate = this.item.config.schedule.exdates[i];
+                //var date = new Date(checkDate);
+
+                //todo, date formatting for rrule api        requirement
+                //rruleSet.exdate(convertDateToUTC(date));
+            //}
+
+
+
+            var getRRuleString = function(string){
+                return string.replace('RRULE:','').replace('["','').replace('"]','');//.replace('","EXDATE:',';EXDATE=')    ;
+            };
+
+            var rruleCache = this.item.config.schedule.rrule;
+
+            this.item.config.schedule.rrule = getRRuleString(rruleSet.toString());
+
+            TargetProduct = angular.copy(this.item);
+
+            var createDateAsUTC = function (date) {
+                return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
+            };
+
+            for(var i= 0,len=this.item.config.schedule.exdates.length;i<len;i++){
+                var newDate = (TargetProduct.config.schedule.exdates[i] *  .001);
+                TargetProduct.config.schedule.exdates[i] = newDate;
+            }
 
             this.processDtRangeOut();
             console.log(this.item.state);
             this.item.state = ( (typeof this.item.state == 'undefined' ) || (this.item.state == null) ) ? 1 : this.item.state;
-            var item = productsRestService.save(this.item);
+
+
+
+            var exdatesCache = this.item.config.schedule.exdates;
+
+            var item = productsRestService.save(TargetProduct);
+
+
+
+            //item.config.schedule.rrule = rruleCache;
 
             item.$promise.then(angular.bind(this,function(){
                 if(typeof item.config == 'string' ){
                     item.config = JSON.parse(item.config)
                 }
 
+                item.config.schedule.exdates = this.item.config.schedule.exdates;
                 this.item = item;
             }));
+
+
+
+
+
         };
 
         $scope.$watch(
